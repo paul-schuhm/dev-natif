@@ -53,7 +53,7 @@ En cas de problèmes avec wsl, veuillez [consulter cette page de problèmes conn
  Pour activer la plateforme de virtualisation, redémarrer votre machine, appuyez sur `F2` ou la touche indiquée indiquée par votre carte-mère pour accéder au BIOS. Vous devez également vous assurer que les fonctionnalités Plateforme de l'hyperviseur Windows et Plateforme de machine virtuelle sont bien activées. Tapez `“fonctionnalités windows”` dans votre barre de recherche, puis activez-les. Redémarrez votre machine. 
 
 
-<img width="80%" src="../../wsl.png"/>
+<img width="80%" src="wsl.png"/>
 
 Vérifier l'installation
 
