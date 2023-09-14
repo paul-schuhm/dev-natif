@@ -48,9 +48,9 @@ wsl --update
 
 En cas de problèmes avec wsl, veuillez [consulter cette page de problèmes connus](https://learn.microsoft.com/fr-fr/windows/wsl/troubleshooting) avant de demander de l'aide. Vous pouvez également consulter la FAQ pour en savoir plus.
 
- Pour exécuter WSL 2, vous devez au préalable *activer la plateforme de machine virtuelle Windows* (appelée Hyper-V). Si ce n'est pas le cas, vous allez obtenir un message comme celui-ci `"Please enable the virtual Machine Platform WIndows feature and ensure virtualization is enabled in the BIOS"`. 
+Pour exécuter WSL 2, vous devez au préalable *activer la plateforme de machine virtuelle Windows* (appelée Hyper-V). Si ce n'est pas le cas, vous allez obtenir un message comme celui-ci `"Please enable the virtual Machine Platform WIndows feature and ensure virtualization is enabled in the BIOS"`. 
 
- Pour activer la plateforme de virtualisation, redémarrer votre machine, appuyez sur `F2` ou la touche indiquée indiquée par votre carte-mère pour accéder au BIOS. Vous devez également vous assurer que les fonctionnalités Plateforme de l'hyperviseur Windows et Plateforme de machine virtuelle sont bien activées. Tapez `“fonctionnalités windows”` dans votre barre de recherche, puis activez-les. Redémarrez votre machine. 
+Pour activer la plateforme de virtualisation, redémarrer votre machine, appuyez sur `F2` ou la touche indiquée indiquée par votre carte-mère pour accéder au BIOS. Vous devez également vous assurer que les fonctionnalités Plateforme de l'hyperviseur Windows et Plateforme de machine virtuelle sont bien activées. Tapez `“fonctionnalités windows”` dans votre barre de recherche, puis activez-les. Redémarrez votre machine. 
 
 
 <img width="80%" src="wsl.png"/>
@@ -69,7 +69,7 @@ Pour lister les distributions installées
 wsl -l -v
 ~~~
 
-Ouvrir la WSL. Choisissez un nom d'utilisateur et un mot de passe pour le système GNU/Linux. Cet utilisateur est l'administrateur du système avec la capacité d'exécuter des commandes d'administration (`sudo`). WSL va vous ouvrir shell sur votre instance GNU/Linux. Executer les commandes suivantes :
+Ouvrir la WSL. Choisissez un nom d'utilisateur et un mot de passe pour le système GNU/Linux. Cet utilisateur est l'administrateur du système avec la capacité d'exécuter des commandes d'administration (`sudo`). WSL va vous ouvrir un shell sur votre instance GNU/Linux. Executer les commandes suivantes :
 
 ~~~bash
 #Mettre à jour la liste des paquets
@@ -140,8 +140,6 @@ gcc main.o -o say-hi
 > L'option `-o` permet de contrôler le nom de fichier de sortie
 
 > Sous le capot, `gcc` utilise le linker `ld`
- 
-
 
 **Executer** le binaire sur votre OS, via le shell
 
@@ -179,7 +177,6 @@ Par défaut, `make` execute la première règle si aucune règle n'est spécifi�
 
 1. **Écrire** un `Makefile` qui permet de réaliser chaque étape du *build* (compilation, assemblage et linkage) *indépendamment*. Chaque règle doit pouvoir être exécutée directement. Par exemple, on doit pouvoir procéder au linkage sans *explicitement* passer par les phases de compilation et d'assemblage.
 
-
 `make` permet de déclarer des variables sous forme de clef/valeur. Voici la syntaxe :
 
 ~~~Makefile
@@ -201,6 +198,6 @@ Pour déférencer cette variable (extraire sa valeur) dans le `Makefile`
 ## Conclusion de cette démo
 
 - Ce qu'on appelle *compilation* de manière abusive comprend en fait plusieurs étapes : compilation, assemblage, linkage
-- Chaque OS (ou langage) fournit dans son SDK des libraires utilisables pour le développement (`stdlib.h` fait partie du SDK du langage C)
+- Chaque OS (ou langage) fournit dans son SDK des libraires utilisables pour le développement (`stdlib.h` fait partie du SDK du langage C). Ici, on pourrait dire que mon SDK de développement est composé de stdio.h (la librairie standard de C) et de gcc (le compilateur)
 - Un *programme natif* est un programme compilé *vers une plateforme cible* (ici via `gcc`). Il est natif *à la plateforme*. Ici, il est exécuté *directement* par l'OS (code machine ou binaire)
-- Il existe des outils comme `make` pour automatiser les processus liées à la compilation, notamment dans le cas de projets réels ou le nombre de fichiers sources et de libraires est important
+- Il existe des outils comme `make` pour automatiser les processus liées à la compilation, notamment dans le cas de projets réels ou le nombre de fichiers sources et de libraires est important. make permet notamment de rebuild uniquement les parties du projet concernées par les changements et permet de gagner du temps lors de la phase de compilation

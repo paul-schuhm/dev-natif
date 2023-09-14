@@ -21,7 +21,7 @@
 
 > On parlera indistinctement de *library*, librairie ou bibliothèque. On parle souvent de librairie en français malgré le fait que la traduction correcte de library soit bibliothèque. Néanmoins, le mot librairie est plus court et c'est un faux ami qui permet de faire la correspondance du concept dans les deux langues. Et puis, une librairie et une bibliothèque proposent toutes les deux des livres à utiliser donc le sens n'est pas totalement perdu.
 
-Nous avons une *library*, du code, `mylib` que nous souhaiterions distribuer. Cette library contient des fonctions et des structures de données *utiles*. Si nous voulons distribuer ce code, nous n'allons distribuer que le header (`mylib.h`) et le binaire, et non le code source de l'implémentation (`mylib.c`), car l'utilisateur n'a pas à la connaître pour s'en servir. Il a seulement besoin de connaître les *déclarations* (l'API de ma library).
+Nous avons une *library*, du code, `mylib` que nous souhaiterions distribuer. Cette library contient des fonctions et des structures de données. Si nous voulons distribuer ce code, nous n'allons distribuer que le header (`mylib.h`) et le binaire, et non le code source de l'implémentation (`mylib.c`), car l'utilisateur n'a pas à la connaître pour s'en servir. Il a seulement besoin de connaître les *déclarations* (l'API de ma library).
 
 Pour cela, je vais donc distribuer aux utilisateur·ices :
 
@@ -45,7 +45,7 @@ gcc -c mylib.c -o mylib.o
 gcc -shared mylib.o -o libmylib.so
 ~~~
 
-La librairie partagée `libmylib.so` est crée. Je distribue `mylib.h` et `libmylib.so` aux utilisateurs. Ma librairie partagée *est spécifique à une plateforme* (c'est du code compilé !). Si elle est compilée pour GNU/Linux, elle ne pourra être éxecutée par Windows ou Android par exemple.
+La librairie partagée `libmylib.so` est crée. Je distribue `mylib.h` et `libmylib.so` aux utilisateurs. Ma librairie partagée *est spécifique à une plateforme* (c'est du code compilé !). Si elle est compilée pour GNU/Linux, elle ne pourra être exécutée par Windows ou Android par exemple.
 
 ## Utiliser la librairie dynamique dans son projet
 
@@ -53,8 +53,7 @@ En tant qu'utilisateur, je récupère une copie de ces deux fichiers (`mylib.h` 
 
 ### Compiler
 
-1. Pour pouvoir utiliser la librairie mylib dans mon projet, quelle est la première chose à faire ?
-   
+1. Pour pouvoir utiliser la librairie mylib dans mon projet, quelle est la première chose à faire ? Je dois inclure le header pour importer les déclarations des fonctions, structures de données et variables. Cela sera vérifié durant la phase de compilation.
 
 ~~~c
 #include "mylib.h"
@@ -68,21 +67,22 @@ gcc -o myapp.o -c main.c
 
 ### Linker
 
-Le binaire `main.o` n'est pas encore executable car il contient des *références* vers des libraires : `mylib` (`struct Foo`, `createFoo`, `destroyFoo`) et `stdio.h` (`printf`). Inclure le header a permis de fournir des déclarations, donc lors de la phase de compilation, le compilateur a seulement vérifier que les fonctions et structures existaient et avaient la bonne signature. 
+Le binaire `main.o` n'est pas encore executable car il contient des *références* vers des libraires : `mylib` (`struct Foo`, `createFoo`, `destroyFoo`) et `stdio.h` (`printf`). Inclure le header a permis de fournir des déclarations, donc lors de la phase de compilation, le compilateur a seulement vérifié que les fonctions et structures existaient et avaient la bonne signature. 
 
 Le fichier objet contient encore ses références, elles doivent à présent être remplacées par le code source (du binaire) pour fabriquer l'executable. C'est l'étape de linkage (*linking*). 
 
 2. Ouvrir le fichier `myapp.o`. Que remarque-t-on ? Que reste-il à faire pour produire l'executable ?
 
-> Le système a des moyens (il est configuré pour) pour trouver tout seul où se trouve la librairie compilée de `stdio.h` (le binaire s'appelle `libc.so`). Mon executable sera linké de manière dynamique par le linker au binaire de `printf` (qu'il sait trouver) qui sera chargé en mémoire.
+> Le système a des moyens (il est configuré pour) pour trouver tout seul où se trouve la librairie compilée de `stdio.h` (pour info, le binaire s'appelle `libc.so`). Mon executable sera linké de manière dynamique par le linker au binaire de `printf` (qu'il sait trouver) qui sera chargé en mémoire.
 
-Il faut donc ici seulement linker le fichier objet `main.o` avec la librairie dynamique `libmylib.so`
+Il faut donc ici seulement linker le fichier objet `main.o` avec la librairie dynamique `libmylib.so` :
 
 ~~~bash
 #Création de l’exécutable main avec linkage dynamique vers la librairie. Plusieurs options
-##Option 1
+#Option 1
 gcc -L$(pwd) main.o -lmylib -o myapp -Wl,-rpath,$(pwd)
-##Option 2 (s'assurer qu'/usr/local/lib est sur LD_LIBRARY_PATH)
+#OU 
+#Option 2 (s'assurer qu'/usr/local/lib est sur la variable d'environnement LD_LIBRARY_PATH)
 sudo cp libmylib.so /usr/local/lib/
 gcc -L$(pwd) main.o -lmylib -o myapp
 ~~~
@@ -97,13 +97,12 @@ Executer
 
 1. **Écrire** un `Makefile` pour automatiser la compilation de la librairie partagée `mylib` et la compilation de mon programme `myapp` qui utilise cette librairie.
 
-> Pour écrire un Makefile, commencez par vous demander quelle est la cible (fichier à construire), de quoi dépend-il et enfin comment le construire.
+> Pour écrire un `Makefile`, commencez par vous demander quelle est la cible (fichier à construire), de quoi dépend-il et enfin comment le construire.
 
-> En situation réelle, on séparerait ces deux phases de build dans deux Makefile séparés. Chaque projet (la librairie et l'application) aurait son Makefile et son *dépôt*.
+> En situation réelle, on séparerait ces deux phases de build dans deux `Makefile` séparés. Chaque projet (la librairie et l'application) aurait son Makefile et son *dépôt*.
 
 
 4. Exécutez deux fois d'affilée la règle pour construire la librairie. Que remarquez-vous ?
-
 5. Modifier le code source de la librairie et ajouter une fonction `substract` qui calcule la différence entre deux structures `Foo`. Ré-executer le programme `myapp`.
 6. Supposons que je souhaite utiliser `mylib` (`mylib.h` et `mylib.so`) sur Windows. Puis-je l'utiliser telle quelle ? Pourquoi ? Quelles solutions s'offrent à cet utilisateur pour s'en servir ?
 
