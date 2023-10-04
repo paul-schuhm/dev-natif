@@ -50,6 +50,8 @@ Decimal: 42.0 (Type: double)
 CombinedText Text: Quelle est votre réponse ? 42.0 (Type: String)
 ~~~
 
+> Attention si vous exécutez le code sur un Dartpad, le type affiché pour les nombres peut sembler "incorrect" (`int` au lieu de `double`). [Voir l'issue relative à ce sujet](https://github.com/dart-lang/dart-pad/issues/1646)
+
 6. **Afficher** le reste de la division `number` par 11.
 7. **Afficher** la *division entière* de `number` par 11.
 8. **Afficher** le résultat de la division de `number` par 11 avec une *précision* de 3 (trois chiffres significatifs).
