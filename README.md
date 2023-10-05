@@ -6,6 +6,8 @@ Code source du module d'enseignement Développement Natif
   - [Démos en C](#démos-en-c)
   - [Démos en Dart](#démos-en-dart)
   - [Exercices dart](#exercices-dart)
+    - [Sujet](#sujet)
+    - [Proposition de solutions](#proposition-de-solutions)
 
 
 ## Démos en C
@@ -19,4 +21,10 @@ Code source du module d'enseignement Développement Natif
 
 ## Exercices dart
 
+### Sujet
+
 - [Liste d'exercices en dart](./dart-exercices/README.md)
+
+### Proposition de solutions
+
+- [Exercice 0](./dart-exercices/propositions/exercice0.dart)
