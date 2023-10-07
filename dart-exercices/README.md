@@ -122,7 +122,10 @@ Que se passe-t-il si on ajoute cette nouvelle entrée dans la map : `David Wilso
 
 > Attention, **aucune des fonctions** ne doit avoir d'*effets de bord* ! (comme modifier la liste passée en argument par exemple)
 
-12. Une fonction `chooseOperation` qui prend en argument deux entiers `a` et `b`. Si `a` > `b`, la fonction doit retourner une fonction qui effectue le produit deux nombres (`num`), une fonction qui effectue la division entière de deux nombres sinon. La fonction retourne alors le résultat sous forme de chaîne de caractères. Quelle est la signature *complète*  de la fonction `chooseOperation` (avec annotation de type) ?
+12. Une fonction `chooseOperation` qui prend en argument deux entiers `a` et `b`. Si `a` > `b`, la fonction doit retourner une fonction qui effectue le *produit* deux nombres (`num`), une fonction qui effectue la *division entière* de deux nombres sinon. La fonction retourne alors le résultat sous forme de chaîne de caractères. Quelle est la signature *complète*  de la fonction `chooseOperation` (avec annotation de type sur le retour) ?
+
+
+13. Une fonction `deriv` qui retourne la *dérivée* d'une fonction `f` mathématique à une seule variable. On rappelle que la dérivée d'une fonction en un point `x` est définie par `(f(x+dx)-f(x)/dx)` avec `dx << 1`. On prendra `dx=0.000001`. Évaluer la fonction qui à `x` associe `x³` et sa dérivée au point `x=2`.
 
 <!-- 
 Trouver des exercices cools sur Codewars
