@@ -82,8 +82,8 @@ L'hôte outlook.com apparaît 2 fois sur 10
 
 1. Une fonction qui prend en argument une liste de nombres et retourne le nombre le plus grand.
 2. Une fonction *récursive* qui effectue la somme d'une liste de nombres.
-3. Une fonction qui prend en argument une liste d'entiers et deux entiers `a` et `b`, avec `a < b`. Cette fonction doit retourner la somme des nombres de la liste compris entre `a` et `b` (inclus). Par exemple, si on fournit la liste `[1, 2, 3, 4]`, `a=1`, `b=3`, la fonction doit renvoyer la somme de liste filtrée `[1, 2, 3]`, soit `6`. 
-4. On aimerait *généraliser* la fonction précédente  **Réécrire** la fonction précédente de sorte à ce que l'on puisse *passer en argument une fonction F* afin de changer l'opération réalisée sur la liste filtrée. Implémenter une fonction anonyme pour calculer le produit de tous les nombres, et une fonction anonyme pour faire la somme des carrés.
+3. Une fonction `sumInRange` qui prend en argument une liste d'entiers et deux entiers `a` et `b`, avec `a < b`. Cette fonction doit retourner la somme des nombres de la liste compris entre `a` et `b` (inclus). Par exemple, si on fournit la liste `[1, 2, 3, 4]`, `a=1`, `b=3`, la fonction doit renvoyer la somme de liste filtrée `[1, 2, 3]`, soit `6`. 
+4. On aimerait *généraliser* la fonction `sumInRange`. **Réécrire** la fonction précédente que l'on appellera `applyOnRange` de sorte à ce que l'on puisse lui *passer en argument une fonction f* afin de changer la nature de l'opération réalisée sur la sélection de nombres (actuellement la *somme*). Tester votre fonction en lui passant en paramètre une fonction anonyme qui calcule le *produit de tous les nombres*, et une fonction anonyme qui calcule *la somme des carrés*.
 5. Une fonction qui renvoie vrai si une chaîne de caractères est un palindrome, faux sinon. Tester votre fonction avec le palindrome `"Engage le jeu que je le gagne"`.
 6. Une fonction qui prend en paramètre un entier positif inférieur à 100, tire aléatoirement des entiers inférieurs à 100 jusqu'à tirer la valeur passée en paramètre et retourne le nombre d'essais.
 7. Une fonction qui calcule votre âge (en secondes) à l'instant actuel, à la seconde près. Affichage attendu `"1 303 236 963 secondes vécues"`.
@@ -122,10 +122,10 @@ Que se passe-t-il si on ajoute cette nouvelle entrée dans la map : `David Wilso
 
 > Attention, **aucune des fonctions** ne doit avoir d'*effets de bord* ! (comme modifier la liste passée en argument par exemple)
 
-12. Une fonction `chooseOperation` qui prend en argument deux entiers `a` et `b`. Si `a` > `b`, la fonction doit retourner une fonction qui effectue le *produit* deux nombres (`num`), une fonction qui effectue la *division entière* de deux nombres sinon. La fonction retourne alors le résultat sous forme de chaîne de caractères. Quelle est la signature *complète*  de la fonction `chooseOperation` (avec annotation de type sur le retour) ?
+12. Une fonction `chooseOperation` qui prend en argument deux entiers `a` et `b`. Si `a` > `b`, la fonction doit retourner une fonction qui effectue le produit deux nombres (`num`), une fonction qui effectue la division entière de deux nombres sinon. La fonction retourne alors le résultat sous forme de chaîne de caractères. Quelle est la signature *complète*  de la fonction `chooseOperation` (avec annotation de type) ?
 
 
-13. Une fonction `deriv` qui retourne la *dérivée* d'une fonction `f` mathématique à une seule variable. On rappelle que la dérivée d'une fonction en un point `x` est définie par `(f(x+dx)-f(x)/dx)` avec `dx << 1`. On prendra `dx=0.000001`. Évaluer la fonction qui à `x` associe `x³` et sa dérivée au point `x=2`.
+13. Une fonction `deriv` qui retourne la *dérivée* d'une fonction `f` mathématique à une seule variable. On rappelle que la dérivée d'une fonction en un point x est définie par `(f(x+dx)-f(x)/dx)` avec `dx << 1`. On prendra `dx=0.000001`. Évaluer la fonction qui à x associe x³ en `x=2` et sa dérivée au même point.
 
 <!-- 
 Trouver des exercices cools sur Codewars
@@ -192,7 +192,7 @@ Cylindre accepté     : (Rayon : 8.00, Hauteur : 7.00, Volume : 1407.43))
 > Notions abordées : programmation orientée objet, héritage simple, constructeurs, super, variables de classe, visibilité, immutabilité
 
 1. Dans un fichier `main.dart`, **créer** une classe `City` représentant une ville avec les attributs `name` et `county` (département). Instancier trois villes avec les données fournies ci-dessous.
-2. **Déplacer** la définition de `City` dans un fichier `city.dart`. Dans votre code client (fichier `main.dart`), **importer** la classe. **Surcharger** la méthode d'affichage pour **imprimer** une ville sur la sortie standard sous la forme "X se situe dans le département Y". 
+2. **Déplacer** la définition de `City` dans un fichier `city.dart`. Dans votre code client (fichier `main.dart`), **importer** la classe. [**Surcharger** la méthode de classe](https://dart.dev/language/extend#overriding-members) d'affichage pour **imprimer** une ville sur la sortie standard sous la forme "X se situe dans le département Y". 
 3. Dans le fichier `city.dart`, **créer** une classe nommée `CityWithArea` (*area* désigne la région) qui étend la classe `City` affichant « La ville X se situe dans le département Y de la région Z ». 
 4. **Modifier** la classe `City` pour que l'on puisse connaître la ville ayant le nom le plus long parmi toutes celles instanciées, avec une variable `longestCityName`. Cette variable ne doit pas être modifiable dans le code client (`main.dart`).
 
@@ -212,7 +212,7 @@ On veut créer un programme qui manipule des formes géométriques.
 
 On souhaite à présent créer une classe `Square` qui étend `Rectangle` (un carré *est juste* un cas particulier de rectangle). 
 
-1. **Implémenter** la classe `Square` et son getter `area`.
+2. **Implémenter** la classe `Square` et son getter `area`.
 3. **Créer** une collection composée d'un rectangle de largeur 1 et hauteur 2, et de un carré de côté 1. Afficher l'aire de chacun d'entre eux.
 4. **Implémenter** un *setter* ` increaseWidthBy(int percent)` de sorte que l'on puisse augmenter la largeur d'un rectangle de `percent`%. Faire de même avec un *setter* `void increaseHeightBy(int percent)` pour augmenter sa hauteur.
 5. Pour chaque item de la collection, **augmenter** la largeur de `100%` puis afficher les.
@@ -354,7 +354,7 @@ Sortie attendue :
 
 1. **Créer** un projet dart et y déplacer toutes les fonctions de l'exercice 1.
 2. A l'aide des outils intégrés, **générer** la documentation du code source de l'exercice 1 (`exercice1.dart`) pour les fonctions 1. [Respecter les recommandations officielles](https://dart.dev/effective-dart/documentation) pour la documentation
-3. **Écrire** et exécuter des tests unitaires pour les fonctions 2, 3 et 5 de l'exercice 1.
+3. **Écrire** et exécuter des tests unitaires pour les fonctions 2, 3 et 5 de l'exercice 1 avec [le package test](https://pub.dev/packages/test)
 4. **Régler** le compilateur de manière *stricte* avec les paramètres suivants : 
 
 ~~~yaml
@@ -369,6 +369,9 @@ analyzer:
 
 <!-- 
 Voir une correction partielle [dans la démo](./code-source/dart-project-exercice-9/) 
+dart doc
+dart analyze
+dart test
  -->
 
 
