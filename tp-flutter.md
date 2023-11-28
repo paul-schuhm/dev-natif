@@ -71,7 +71,7 @@ Créer un nouveau projet Flutter. Dans ce projet, deux tuiles colorées seront a
 Étendre le projet *Hello World* (`flutter create hello-world`)
 
 1. Ajouter un bouton pour décrémenter l'état et changer le texte à `'Valeur du compteur : <valeur>'`. Le compteur ne peut pas avoir une valeur inférieure à 0. 
-2. Ajouter le fait que si le nombre de compteur est paire, l'arrière-plan de l'AppBar passe de la couleur `red`, impaire à la couleur `blue` 
+2. Ajouter le fait que si le nombre de compteur est paire, l'arrière-plan de l'`AppBar` passe à la couleur `red`, impaire à la couleur `blue`.
 3. Ajouter un widget `Text` sur l'écran `"Pair"` si le nombre est paire, `"Impaire"` sinon 
 4. Ajouter un widget `Text` sur l'écran qui répond au jeu du *FizzBuzz* : si le nombre est divisible par 3, un widget `Text` "Fizz" est ajouté, si le compteur est divisible par 5, un widget `Text` distinct "Buzz" est ajouté. Si divisible par 3 et par 5, les deux widgets sont affichés. Sinon, ils ne sont pas affichés.
 
