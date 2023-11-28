@@ -96,7 +96,7 @@ Lorsque la transformation n'est pas possible, indiquer-le à l'utilisateur avec 
 
 > Les `-` indique une conversion impossible (pas la même grandeur physique)
 
-<img src="./../assets/app-conversion.png" height="350"/>
+<img src="/assets/app-conversion.png" height="350"/>
 
 
 2. À l'aide d'une méthode de gestion d'état, mettez à jour la liste des options de conversion réalisables et sensées en fonction de la grandeur de départ (au lieu de laisser l'utilisateur faire et lui afficher ensuite une erreur).
