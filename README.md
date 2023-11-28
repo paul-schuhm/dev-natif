@@ -7,8 +7,6 @@ Code source du module d'enseignement Développement Natif
   - [Démos Dart](#démos-dart)
   - [Démos Flutter](#démos-flutter)
   - [Exercices Dart](#exercices-dart)
-    - [Sujet](#sujet)
-    - [Proposition de solutions](#proposition-de-solutions)
   - [Exercices Flutter](#exercices-flutter)
 
 ## Démos C
@@ -26,13 +24,8 @@ Code source du module d'enseignement Développement Natif
 
 ## Exercices Dart
 
-### Sujet
-
-- [Liste d'exercices en Dart](./exercices-dart/README.md)
-
-### Proposition de solutions
-
-- [Exercices 0 à 10](./exercices-dart/propositions), sauf 7, 8 et 9 pour l'instant
+- [Exercices programmer avec Dart](./exercices-dart/README.md)
+- [Exercices programmer avec Dart - Suggestions de correction](./exercices-dart/propositions), suggestion de correction avec code commenté, sauf exercices 7, 8 et 9 pour l'instant
 
 ## Exercices Flutter
 
