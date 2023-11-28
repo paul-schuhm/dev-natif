@@ -36,4 +36,5 @@ Code source du module d'enseignement Développement Natif
 
 ## Exercices Flutter
 
-- [Liste de TP sur les fondamentaux de Flutter](./tp-flutter.md)
+- [TP sur les fondamentaux de Flutter](./tp-flutter/)
+- [TP sur les fondamentaux de Flutter - Suggestions de correction](./tp-flutter/suggestions/)
