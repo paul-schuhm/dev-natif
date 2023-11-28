@@ -3,20 +3,20 @@
 Code source du module d'enseignement Développement Natif
 
 - [dev-natif](#dev-natif)
-  - [Démos en C](#démos-en-c)
-  - [Démos en Dart](#démos-en-dart)
+  - [Démos C](#démos-c)
+  - [Démos Dart](#démos-dart)
   - [Démos Flutter](#démos-flutter)
-  - [Exercices dart](#exercices-dart)
+  - [Exercices Dart](#exercices-dart)
     - [Sujet](#sujet)
     - [Proposition de solutions](#proposition-de-solutions)
   - [Exercices Flutter](#exercices-flutter)
 
-## Démos en C
+## Démos C
 
 - [Démo compilation](./demos-c/demo1-compilation/)
 - [Démo compiler, distribuer et utiliser une librairie](./demos-c/demo2-linkage/)
 
-## Démos en Dart
+## Démos Dart
 
 - [Démos programmation orientée objet](./demos-dart/poo-premiers-pas.dart)
 
@@ -24,11 +24,11 @@ Code source du module d'enseignement Développement Natif
 
 - [Démo du bon usage des keys](./demo-flutter/use_of_key/)
 
-## Exercices dart
+## Exercices Dart
 
 ### Sujet
 
-- [Liste d'exercices en dart](./dart-exercices/README.md)
+- [Liste d'exercices en Dart](./dart-exercices/README.md)
 
 ### Proposition de solutions
 
