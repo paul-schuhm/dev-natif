@@ -15,7 +15,10 @@ Des travaux pratiques pour maîtriser les concepts fondamentaux du framework Flu
 - Le widget `InheritedWidget`
 - La gestion d'état avec `InheritedWidget` et le paquet `provider`
 
+## Table des matières
+
 - [Mydigital School (Rennes) Développement Natif - Module 4 : TP Flutter](#mydigital-school-rennes-développement-natif---module-4--tp-flutter)
+  - [Table des matières](#table-des-matières)
   - [TP 0 : Du bon usage des `keys`](#tp-0--du-bon-usage-des-keys)
     - [Partie 1 : widgets Stateless](#partie-1--widgets-stateless)
     - [Partie 2 : widgets Stateful](#partie-2--widgets-stateful)
