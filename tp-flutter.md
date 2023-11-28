@@ -20,10 +20,10 @@ Des travaux pratiques pour maîtriser les concepts fondamentaux du framework Flu
 
 ## TP 0 : Du bon usage des `keys`
 
-Créer un nouveau projet Flutter. Dans ce projet, deux tuiles de couleurs seront affichées. Un bouton permettra d'intervertir les deux tuiles (swap).
+Créer un nouveau projet Flutter. Dans ce projet, deux tuiles colorées seront affichées. Un bouton permettra d'intervertir les deux tuiles (swap).
 
 1. Créer un widget `StatelessTile` qui étend `StatelessWidget` et s'affiche comme un carré de 200 par 200 pixels d'une couleur aléatoire.
-2. Créer un widget `PositionedTiles` qui étend StatefulWidget et maintient une liste tiles de 2 `StatelessTile`. Implémenter la méthode `initState` pour initialiser `tiles` avec deux widgets `StatelessTile`. `PositionedTiles` sera build avec cette implémentation :
+2. Créer un widget `PositionedTiles` qui étend `StatefulWidget` et maintient une liste `tiles` de 2 `StatelessTile`. Implémenter la méthode `initState` pour initialiser `tiles` avec deux widgets `StatelessTile`. `PositionedTiles` sera *build* avec cette implémentation :
 ~~~dart
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ Créer un nouveau projet Flutter. Dans ce projet, deux tuiles de couleurs seront
 ~~~
 3. Implémenter la méthode `swapTiles` qui intervertit les deux tiles. La première tile est placée en seconde position et inversement.
 4. Tester votre code. 
-5. Créer un nouveau widget `StatefulTile` qui étend `StatefulWidget` cette fois-ci et s'affiche comme un carré de 200 par 200 pixels d'une couleur aléatoire. Cette fois-ci, la couleur sera un état et sera maintenue par la classe d'état compagnon. Dans la classe état, implémenter `initState` pour tirer une couleur aléatoire à maintenir.
+5. Créer un nouveau widget `StatefulTile` qui étend `StatefulWidget`. Cette fois-ci, la couleur sera un état et sera maintenue par la classe d'état compagnon. Dans la classe état, implémenter `initState` pour tirer une couleur aléatoire à maintenir.
 6. Dans `PositionedTiles`, remplacez les tuiles `StatelessTile` par des tuiles `StatefulTile`. Tester à nouveau votre code. Qu'observez-vous ? Pourquoi ?
 7. Corriger le problème à l'aide d'une key.
 
