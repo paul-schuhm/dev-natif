@@ -5,11 +5,11 @@ Code source du module d'enseignement Développement Natif
 - [dev-natif](#dev-natif)
   - [Démos en C](#démos-en-c)
   - [Démos en Dart](#démos-en-dart)
+  - [Démos Flutter](#démos-flutter)
   - [Exercices dart](#exercices-dart)
     - [Sujet](#sujet)
     - [Proposition de solutions](#proposition-de-solutions)
   - [Exercices Flutter](#exercices-flutter)
-
 
 ## Démos en C
 
@@ -19,6 +19,10 @@ Code source du module d'enseignement Développement Natif
 ## Démos en Dart
 
 - [Démos programmation orientée objet](./demos-dart/poo-premiers-pas.dart)
+
+## Démos Flutter
+
+- [Démo du bon usage des keys](./demo-flutter/use_of_key/)
 
 ## Exercices dart
 
