@@ -15,12 +15,32 @@ Des travaux pratiques pour maîtriser les concepts fondamentaux du framework Flu
 - Le widget `InheritedWidget`
 - La gestion d'état avec `InheritedWidget` et le paquet `provider`
 
+- [Mydigital School (Rennes) Développement Natif - Module 4 : TP Flutter](#mydigital-school-rennes-développement-natif---module-4--tp-flutter)
+  - [TP 0 : Du bon usage des `keys`](#tp-0--du-bon-usage-des-keys)
+    - [Partie 1 : widgets Stateless](#partie-1--widgets-stateless)
+    - [Partie 2 : widgets Stateful](#partie-2--widgets-stateful)
+  - [TP 1 : Extension du *Hello World*](#tp-1--extension-du-hello-world)
+  - [TP 2 : Continuer le Google Codelabs](#tp-2--continuer-le-google-codelabs)
+  - [TP 3 : Application de conversion d'unités](#tp-3--application-de-conversion-dunités)
+    - [Prérequis](#prérequis)
+    - [Objectifs](#objectifs)
+    - [Spécifications](#spécifications)
+    - [Tableau des facteurs de conversion entre unités de mesure](#tableau-des-facteurs-de-conversion-entre-unités-de-mesure)
+    - [Conseils](#conseils)
+    - [Widgets utiles](#widgets-utiles)
+  - [TP 4 : Gestion des états avec `setState`](#tp-4--gestion-des-états-avec-setstate)
+  - [TP 5 : Gestion des états avec `InheritedWidget`](#tp-5--gestion-des-états-avec-inheritedwidget)
+  - [TP 6 : Gestion des états avec `provider`](#tp-6--gestion-des-états-avec-provider)
+  - [Travail supplémentaire](#travail-supplémentaire)
+
 <hr>
 
 
 ## TP 0 : Du bon usage des `keys`
 
 Créer un nouveau projet Flutter. Dans ce projet, deux tuiles colorées seront affichées. Un bouton permettra d'intervertir les deux tuiles (swap).
+
+### Partie 1 : widgets Stateless 
 
 1. Créer un widget `StatelessTile` qui étend `StatelessWidget` et s'affiche comme un carré de 200 par 200 pixels d'une couleur aléatoire.
 2. Créer un widget `PositionedTiles` qui étend `StatefulWidget` et maintient une liste `tiles` de 2 `StatelessTile`. Implémenter la méthode `initState` pour initialiser `tiles` avec deux widgets `StatelessTile`. `PositionedTiles` sera *build* avec cette implémentation :
@@ -36,7 +56,10 @@ Créer un nouveau projet Flutter. Dans ce projet, deux tuiles colorées seront a
 ~~~
 3. Implémenter la méthode `swapTiles` qui intervertit les deux tiles. La première tile est placée en seconde position et inversement.
 4. Tester votre code. 
-5. Créer un nouveau widget `StatefulTile` qui étend `StatefulWidget`. Cette fois-ci, la couleur sera un état et sera maintenue par la classe d'état compagnon. Dans la classe état, implémenter `initState` pour tirer une couleur aléatoire à maintenir.
+
+### Partie 2 : widgets Stateful 
+
+5. Créer un nouveau widget `StatefulTile` qui étend cette fois-ci la classe **`StatefulWidget`**. Cette fois-ci, la couleur sera un état et sera maintenue par la classe d'état compagnon. Dans la classe état, implémenter `initState` pour tirer une couleur aléatoire à maintenir.
 6. Dans `PositionedTiles`, remplacez les tuiles `StatelessTile` par des tuiles `StatefulTile`. Tester à nouveau votre code. Qu'observez-vous ? Pourquoi ?
 7. Corriger le problème à l'aide d'une key.
 
