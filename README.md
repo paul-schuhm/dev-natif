@@ -28,11 +28,11 @@ Code source du module d'enseignement Développement Natif
 
 ### Sujet
 
-- [Liste d'exercices en Dart](./dart-exercices/README.md)
+- [Liste d'exercices en Dart](./exercices-dart/README.md)
 
 ### Proposition de solutions
 
-- [Exercice 0](./dart-exercices/propositions/exercice0.dart)
+- [Exercices 0 à 10](./exercices-dart/propositions), sauf 7, 8 et 9 pour l'instant
 
 ## Exercices Flutter
 
