@@ -21,6 +21,7 @@ Code source du module d'enseignement Développement Natif
 ## Démos Flutter
 
 - [Démo du bon usage des keys](./demo-flutter/use_of_key/)
+- [Démo Navigator pour faire de la navigation sur une pile](./demos-flutter/navigator/)
 
 ## Exercices Dart
 
