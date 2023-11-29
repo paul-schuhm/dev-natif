@@ -40,10 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
   ///Nécessite de faire du traitement asynchrone.
   void _navigate() async {
 
-    ///Lorsque l'on revient sur cette page dans la stack (appel de pop quelque-part)
+    ///Retour : Lorsque l'on revient sur cette page dans la stack (appel de pop quelque-part)
     var value = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PageTwo(counter: _counter),
+        builder: (context) => PageTwo(counter: _counter), ///Aller : injection dans constructeur
       ),
     );
 
@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _navigate,
         tooltip: 'Navigate to page 2 to increment the counter',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.arrow_forward),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
