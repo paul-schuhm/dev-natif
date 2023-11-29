@@ -5,6 +5,7 @@
   - [Démo gestion des états avec Inherited widget](#démo-gestion-des-états-avec-inherited-widget)
     - [Lancer la démo Inherited widget *sans update*](#lancer-la-démo-inherited-widget-sans-update)
     - [Lancer la démo Inherited widget avec update](#lancer-la-démo-inherited-widget-avec-update)
+  - [Démo gestion des états avec provider](#démo-gestion-des-états-avec-provider)
   - [Référence](#référence)
 
 
@@ -41,6 +42,28 @@ Essayer d'implémenter setState depuis la page A. Pourquoi ce n'est pas possible
 
 ~~~bash
 flutter run -t lib/inherited-with-update/main.dart
+~~~
+
+## Démo gestion des états avec provider
+
+> Wrapper autour des Inherited widget. Le code respire
+
+Installer le paquet provider
+
+~~~bash
+#Ajouter la dépendance provider au projet (pubspec.yaml)
+flutter pub add provider
+#Télécharger et install les dépendances
+flutter pub get
+#Liste les dépendances du projet
+flutter pub deps
+~~~
+
+Lancer la démo
+
+~~~bash
+
+flutter run -t lib/provider/main.dart
 ~~~
 
 ## Référence
