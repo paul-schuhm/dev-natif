@@ -9,6 +9,7 @@ Code source du module d'enseignement *Développement Natif*
   - [Exercices Dart](#exercices-dart)
   - [Exercices Flutter](#exercices-flutter)
   - [Démos Electron](#démos-electron)
+  - [Références utiles](#références-utiles)
 
 ## Démos C
 
@@ -40,3 +41,8 @@ Code source du module d'enseignement *Développement Natif*
 - [Guess my number](./demos-electron/guess/)
 - [Quelques fonctionnalité d'Electron](./demos-electron/some-features/)
 - [Mise en place d'un dépôt Debian pour distribuer des applications et des mises à jour](./demo-depot-debian/README.md)
+
+## Références utiles
+
+- [Semantic Versioning](https://semver.org/), publié à l'origine par [Tom Preston-Werner](https://tom.preston-werner.com/)(cofondateur Github). [Voir le dépôt associé](https://github.com/semver/semver)
+- [Software versioning](https://en.wikipedia.org/wiki/Software_versioning), article de wikipédia sur le verisonnement logiciel
