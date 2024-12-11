@@ -1,13 +1,14 @@
-# dev-natif
+# Développement "natif"
 
-Code source du module d'enseignement Développement Natif
+Code source du module d'enseignement *Développement Natif*
 
-- [dev-natif](#dev-natif)
+- [Développement "natif"](#développement-natif)
   - [Démos C](#démos-c)
   - [Démos Dart](#démos-dart)
   - [Démos Flutter](#démos-flutter)
   - [Exercices Dart](#exercices-dart)
   - [Exercices Flutter](#exercices-flutter)
+  - [Démos Electron](#démos-electron)
 
 ## Démos C
 
@@ -33,3 +34,8 @@ Code source du module d'enseignement Développement Natif
 
 - [TP sur les fondamentaux de Flutter](./tp-flutter/)
 - [TP sur les fondamentaux de Flutter - Suggestions de correction](./tp-flutter/suggestions/)
+
+## Démos Electron
+
+- Guess my number
+- Quelques fonctionnalité d'Electron
