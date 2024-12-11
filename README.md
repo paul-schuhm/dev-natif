@@ -39,3 +39,4 @@ Code source du module d'enseignement *Développement Natif*
 
 - [Guess my number](./demos-electron/guess/)
 - [Quelques fonctionnalité d'Electron](./demos-electron/some-features/)
+- [Mise en place d'un dépôt Debian pour distribuer des applications et des mises à jour](./demo-depot-debian/README.md)
