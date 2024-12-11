@@ -37,5 +37,5 @@ Code source du module d'enseignement *Développement Natif*
 
 ## Démos Electron
 
-- Guess my number
-- Quelques fonctionnalité d'Electron
+- [Guess my number](./demos-electron/guess/)
+- [Quelques fonctionnalité d'Electron](./demos-electron/some-features/)
