@@ -44,5 +44,5 @@ Code source du module d'enseignement *Développement Natif*
 
 ## Références utiles
 
-- [Semantic Versioning](https://semver.org/), publié à l'origine par [Tom Preston-Werner](https://tom.preston-werner.com/)(cofondateur Github). [Voir le dépôt associé](https://github.com/semver/semver)
+- [Semantic Versioning](https://semver.org/), publié à l'origine par [Tom Preston-Werner](https://tom.preston-werner.com/) (cofondateur Github). [Voir le dépôt associé](https://github.com/semver/semver)
 - [Software versioning](https://en.wikipedia.org/wiki/Software_versioning), article de wikipédia sur le verisonnement logiciel
