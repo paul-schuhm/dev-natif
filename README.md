@@ -41,6 +41,8 @@ Code source du module d'enseignement *Développement Natif*
 - [Guess my number](./demos-electron/guess/)
 - [Quelques fonctionnalité d'Electron](./demos-electron/some-features/)
 - [Mise en place d'un dépôt Debian pour distribuer des applications et des mises à jour](./demo-depot-debian/README.md)
+- [Les 3 schémas de communication inter-process entre main et renderer](./demos-electron/demo-ipc-patterns/);
+- [Child processes avec l'API utilityProcess](./demos-electron/demo-utility-process/)
 
 ## Références utiles
 
