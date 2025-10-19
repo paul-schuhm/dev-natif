@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <title>Document</title>
+    </head>
+
+    <body>
+
+        <h1>Démo de quelques fonctionnalités d'Electron</h1>
+
+
+        <section>
+            <h2>IPC: Renderer vers Main (Unidirectionnel)</h2>
+
+            <p>Dans cette communication, renderer envoie un message à main mais ne reçoit pas de réponse
+                (unidirectionnel). </p>
+
+            <ul>
+                <li>Renderer (exposé via preload script) : <code>ipcRenderer.send(channel, data)</code></li>
+                <li>Main : <code>ipcMain.on(channel, (event, data) => {...})</code></li>
+            </ul>
+
+            <label for="title">Title: </label>
+            <input id="title" />
+            <button id="btn-unidirect" type="button">Changer le titre de l'application</button>
+
+            <p><a href="https://www.electronjs.org/docs/latest/tutorial/ipc#pattern-1-renderer-to-main-one-way">Documentation
+                    : Pattern 1 Renderer to main (one-way)</a></p>
+
+
+
+        </section>
+
+        <section>
+            <h2>IPC: Renderer vers Main (Bidirectionnel)</h2>
+
+            <p>Dans cette communication asynchrone, renderer appelle main et reçoit une réponse.</p>
+
+            <ul>
+                <li>Renderer (exposé via preload script): <code>ipcRenderer.invoke(channel, data)</code> </li>
+                <li>Main: <code>ipcMain.handle(channel, callback)</code> </li>
+            </ul>
+
+            <button type="button" id="btn-bidirect">Open a File</button>
+            <p>File path: <strong id="filePath"></strong></p>
+
+            <p><a href="https://www.electronjs.org/docs/latest/tutorial/ipc#pattern-2-renderer-to-main-two-way">Documentation
+                    : Pattern 2 Renderer to main (two-way)</a></p>
+
+
+        </section>
+
+        <section>
+            <h2>IPC: Main vers Renderer (Unidirectionnel)</h2>
+
+            <p> Current value: <strong id="counter">0</strong></p>
+
+            <p><a href="https://www.electronjs.org/docs/latest/tutorial/ipc#pattern-3-main-to-renderer">Documentation :
+                    Pattern 3: Main to renderer</a></p>
+
+        </section>
+
+        <script src="renderer.js">
+        </script>
+    </body>
+
+</html>

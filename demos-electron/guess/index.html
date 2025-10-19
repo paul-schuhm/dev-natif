@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <title>Guess my number</title>
+    </head>
+
+    <body>
+        <h1>Guess my number</h1>
+        <input type="number" name="guess" id="guess">
+        <button type="submit" id="try">Try</button>
+        <p id="result"></p>
+        <script src="renderer.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Communications Inter process</h1>
+
+    <section>
+        <h2>Mode 1 : Renderer vers main</h2>
+        <form action="">
+            <input type="text" name="" id="title">
+            <input type="button" value="Changer le titre" id="change_title">
+        </form>
+    </section>
+
+
+    <section>
+        <h2>Mode 2 : Renderer vers main bidirectionnel </h2>
+
+        <input type="button" value="Demander quelque chose à main" id="ask">
+        <p id="result_from_main"></p>
+    </section>
+
+
+    <section>
+        <h2>Mode 3 : Main vers renderer</h2>
+        <p>Clicker sur Menu > Changer la couleur à rouge </p>
+    </section>
+
+
+    <script src="renderer.js">
+    </script>
+</body>
+
+</html>
