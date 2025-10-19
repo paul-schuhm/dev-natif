@@ -1,0 +1,8 @@
+Package: myapp
+Version: @VERSION@
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Prénom Nom <email>
+Depends: curl (>= 7.68.0), libc6 (>= 2.31)
+Description: Mon application à distribuer

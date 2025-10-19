@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "Tâches à réaliser après l'installation... Merci d’avoir installé myapp";
