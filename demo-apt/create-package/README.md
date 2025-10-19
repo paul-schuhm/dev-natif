@@ -13,6 +13,14 @@
   - [Faire évoluer la version](#faire-évoluer-la-version)
   - [Alternative : Faire évoluer depuis un tag git dans une pipeline CI/CD](#alternative--faire-évoluer-depuis-un-tag-git-dans-une-pipeline-cicd)
   - [Scripts de maintenance](#scripts-de-maintenance)
+  - [Distribution de releases et mises à jour via un dépôt Debian](#distribution-de-releases-et-mises-à-jour-via-un-dépôt-debian)
+    - [Créer le dépôt Debian](#créer-le-dépôt-debian)
+    - [Exposer le dépôt publié](#exposer-le-dépôt-publié)
+    - [Utiliser le dépôt (point de vue user)](#utiliser-le-dépôt-point-de-vue-user)
+    - [Mettre à jour la distribution](#mettre-à-jour-la-distribution)
+      - [Côté distributeur](#côté-distributeur)
+      - [Côté client](#côté-client)
+  - [Références utiles](#références-utiles)
 
 
 ## Objectifs
@@ -108,7 +116,6 @@ Puis à la compilation :
 gcc -DVERSION='"1.0.0"' main.c
 ~~~
 
-
 ## Build
 
 On écrit un `Makefile` pour scripter le build. Compiler et créer le paquet `.deb` :
@@ -200,3 +207,176 @@ make deb
 ## Scripts de maintenance
 
 > À venir...
+
+## Distribution de releases et mises à jour via un dépôt Debian
+
+On va créer un dépôt pour déployer des paquets à destination des distributions [GNU/Linux Debian](https://www.debian.org/intro/why_debian.fr.html)(Ubuntu), utilisant le gestionnaire d'application `apt`.
+
+On se sert du gestionnaire de dépôts debian [aptly](https://www.aptly.info/).
+
+### Créer le dépôt Debian
+
+> Concrètement, un dépôt debian est "un simple serveur de fichiers statiques", à exposer avec n'importe quel serveur http. On le simule en local ici, directement avec aptly.
+
+**Créer** une clef gpg (clé publique/privée pour signer les paquets). [gpg](https://fr.wikipedia.org/wiki/GNU_Privacy_Guard) (*GNU Privacy Guard*) est le programme dédié à la signature des paquets et la gestion des clefs GPG sur Debian.
+
+~~~bash
+#Générer clefs (publique/privé), utiliser les valeurs par défaut ici
+gpg --full-generate-key
+#Lister les clefs générées sur la machine
+gpg --list-keys
+~~~
+
+**Créer** un nouveau dépôt apt :
+
+~~~bash
+#Lister les dépôts locaux
+aptly repo list
+#Creer un dépôt local nommé 'myrepo'
+aptly repo create myrepo
+#Lister les paquets présents dans le dépôt (aucun pour l'instant)
+aptly repo show -with-packages myrepo
+~~~
+
+> Un repo Debian est comme un dépôt git : espace de travail mutable (staging area). Sert à préparer un ensemble cohérent de paquets à publier.
+
+**Ajouter le paquet** précédemment crée au repo (`make deb`) :
+
+~~~bash
+#Ajouter paquet : a la racine du projet d'appli (charger le .deb)
+aptly repo add myrepo myapp_1.0.0.deb
+#Voir le paquet
+aptly repo show -with-packages myrepo
+~~~
+
+**Créer un snapshot du repo** :
+
+~~~bash
+#Créer un snapshot 'version1' (Ce dépôt local sera la source des snapshots. Versionnement du dépot (commit))
+aptly snapshot create version1 from repo myrepo
+#Voir le snapshot
+aptly snapshot show -with-packages version1
+#Lister les snapshots
+aptly snapshot list
+~~~
+
+> Un snapshot est comme un *commit* : permet de figer une version donnée du dépôt. On ne peut ni ajouter ni supprimer de paquets à un snapshot :
+
+Il faut également penser à mettre à disposition **la clé publique** pour que les utilisateurs du paquet puissent vérifier son intégrité et l'authenticité de l'auteur·e du paquet.
+
+**Publier** la clef publique (à faire qu'une fois):
+
+~~~bash
+#On publie la clef publique dans le site web servi par aptly en local
+gpg --armor --output ~/.aptly/public/gpg --export <ID clef publique généré précédemment>
+~~~
+
+**Crée une publication** du *snapshot* (*publishes snapshot as Debian repository ready to be consumed by apt tools*). Une publication contient plusieurs métadonnées :
+
+- **Prefix** : Chemin de publication dans le répertoire `public/`, l’endroit où sera stocké le dépôt publié (valeur par défaut `.`, sera placé dans `~/.aptly/public/`);
+- **Distribution** : Regroupement de paquet (premier niveau). ex: `stable`;
+- **Component** : `main` (valeur par défaut si non précisée). Le *component* est le niveau de regroupement juste en dessous de la distribution (ex `deb http://deb.debian.org/debian stable main contrib non-free`), ici `main`, `contrib` et `non-free` sont des *components* de la distribution `stable`. Regrouper des paquets par origine ou politique. Permettre plusieurs sous-ensembles dans une même distribution ;
+- **Architecture** : détectées automatiquement depuis le snapshot (ex. amd64).
+
+~~~bash
+#Publier le nouveau snapshot sous une distribution 'stable', component 'main'
+aptly publish snapshot -distribution="stable" -component="main" version1
+~~~
+
+### Exposer le dépôt publié
+
+Nous avons un dépôt, il suffit à présent de l’héberger sur un serveur. Ici, on le sert en local avec `aptly` directement :
+
+~~~bash
+#Par défaut, exposé sur http://localhost:8080
+aptly serve
+~~~
+
+> En prod, on doit servir statiquement ce site (`~/.aptly/public`) avec n'importe quel serveur web comme Nginx ou Apache.
+
+Imaginons à présent que ce soit un serveur web, avec l'IP suivante `127.0.0.1:8080`.
+
+### Utiliser le dépôt (point de vue user)
+
+Pour utiliser le dépôt de manière sécurisé (vérification signature) :
+
+- **La clef publique** à GPG pour vérifier la signature (`apt` le fera pour nous) ;
+- **L'URL du dépôt** à `apt`, pour qu'il puisse l'ajouter à sa liste de dépôts suivis. 
+
+> Note: le nom de domaine/certificat SSL (serveur hébergeant le dépôt) fait office de CA (confiance)
+
+~~~bash
+#Télécharger et nommer et placer la clef auprès de gpg
+wget -O- http://127.0.0.1:8080/gpg | sudo gpg --dearmor --yes --output /usr/share/keyrings/dev-natif-demo.gpg
+#Ajouter le dépot "private" à notre liste de dépots (en mentionnant la clef dl précédemment)
+echo "deb [signed-by=/usr/share/keyrings/dev-natif-demo.gpg] http://127.0.0.1:8080 stable main" | sudo tee /etc/apt/sources.list.d/private.list
+~~~
+
+**Lister les dépôts** suivis par apt :
+
+~~~bash
+cat /etc/apt/sources.list
+cat /etc/apt/sources.list.d/*.list
+~~~
+
+**Vérifier** la présence de votre dépôt servi par aptly.
+
+**Mettre à jour** les métadonnées sur les paquets et **installer** l'application:
+
+~~~bash
+sudo apt update
+sudo apt search myapp
+sudo apt install myapp
+~~~
+
+### Mettre à jour la distribution
+
+> Quand des nouveaux paquets sont prêts, on créé un nouveau snapshot.
+
+#### Côté distributeur
+
+1. Développer et **créer nouvelle version de notre paquet** (`make deb`), par exemple une version `2.0.0` ;
+2. **Ajouter** le paquet au dépôt `myrepo` : `aptly repo add myrepo myapp_2.0.0.deb` ;
+3. **Créer un nouveau snapshot** (commit du dépot) `version2` : `aptly snapshot create version2 from repo myrepo`;
+4. **Créer une nouvelle publication** : remplace l'ancienne publication par le nouveau snapshot (*switch*) :  `aptly publish switch stable version2`;
+5. **Servir la publication** (en local) : `aptly serve`
+
+> Visiter le dépôt : http://localhost:8080/dists/stable/main/binary-amd64/Packages
+
+#### Côté client
+
+**Vérifier** la présence de nouvelles mise à jour :
+
+> `apt` est capable de vérifier la présence de mise à jour pour un paquet en se basant sur le nom du paquet et sa version. Il compare la version actuellement installée avec des versions plus récentes publiées sur le dépôt.
+
+~~~bash
+#Mettre à jour la liste des paquets
+sudo apt update
+#Lister les versions disponibles
+sudo apt list -a myapp
+#Si des mises à jour sont détectées. 
+apt list --upgradable
+#Vérifier la version installée
+apt list --installed myapp
+~~~
+
+**Installer** les mises à jour des paquets:
+
+~~~bash
+sudo apt upgrade
+#ou juste le paquet
+sudo apt install --only-upgrade myapp
+~~~
+
+*Et voilà !*
+
+**Nous bénéficions d'un système de distribution et de mises à jour** propre à la plateforme Debian (l'une des distributions GNU/Linux, ou distribution enfant comme Ubuntu, les plus utilisées au monde, notamment du point de vue des serveurs web).
+
+## Références utiles
+
+- [Gestion des paquets avec apt](https://debian-facile.org/doc:systeme:apt:apt), documentation de base sur la gestion des paquets avec Debian;
+- [Qu'est ce que le système apt ?](https://www.debian.org/doc/manuals/aptitude/pr01s03.fr.html)
+- [Outils de gestion des paquets Debian](https://www.debian.org/doc/manuals/debian-faq/pkgtools.fr.html), documentation officielle Debian;
+- [Dépôt debian](https://wiki.debian.org/fr/DebianRepository), définition, utilisation d'un dépôt Debian, documentation officielle;
+- [aptly](https://www.aptly.info/), gestionnaire de dépôts Debian;
+- [gpg](https://gnupg.org/), Gnu Privacy Guard. Programme implémentant le standard [OpenGPG](https://www.ietf.org/rfc/rfc4880.txt) définissant le chiffrement des données et des communications. Utilisé ici pour signer les paquets, gérer la clé publique et vérifier la signature des paquets (invoqué par `apt` pour vérifier la signature)
