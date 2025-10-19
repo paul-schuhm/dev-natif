@@ -374,9 +374,11 @@ sudo apt install --only-upgrade myapp
 
 ## Références utiles
 
+- [Déploiement d’une application (paquet Debian)](http://tvaira.free.fr/projets/activites/activite-mo-paquet.html), de Thierry Vaira
+- [Les bases du système de gestion des paquets Debian](https://www.debian.org/doc/manuals/debian-faq/pkg-basics.fr.html), documentation officielle (format paquet, scripts de maintenance)
 - [Gestion des paquets avec apt](https://debian-facile.org/doc:systeme:apt:apt), documentation de base sur la gestion des paquets avec Debian;
 - [Qu'est ce que le système apt ?](https://www.debian.org/doc/manuals/aptitude/pr01s03.fr.html)
 - [Outils de gestion des paquets Debian](https://www.debian.org/doc/manuals/debian-faq/pkgtools.fr.html), documentation officielle Debian;
 - [Dépôt debian](https://wiki.debian.org/fr/DebianRepository), définition, utilisation d'un dépôt Debian, documentation officielle;
 - [aptly](https://www.aptly.info/), gestionnaire de dépôts Debian;
-- [gpg](https://gnupg.org/), Gnu Privacy Guard. Programme implémentant le standard [OpenGPG](https://www.ietf.org/rfc/rfc4880.txt) définissant le chiffrement des données et des communications. Utilisé ici pour signer les paquets, gérer la clé publique et vérifier la signature des paquets (invoqué par `apt` pour vérifier la signature)
+- Programme [gpg](https://gnupg.org/), Gnu Privacy Guard. Programme implémentant le standard [OpenGPG](https://www.ietf.org/rfc/rfc4880.txt) définissant le chiffrement des données et des communications. Utilisé ici pour signer les paquets, gérer la clé publique et vérifier la signature des paquets (invoqué par `apt` pour vérifier la signature)
