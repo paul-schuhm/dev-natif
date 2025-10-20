@@ -127,6 +127,12 @@ make deb
 dpkg-deb -I myapp_1.0.0.deb
 ~~~
 
+Notre application dépend de cURL (libcurl). Il faut installer le paquet libcurl4-openssl-dev : 
+
+~~~bash
+sudo apt install libcurl4-openssl-dev
+~~~
+
 ## Tester l'application localement
 
 Installer le paquet avec [le gestionnaire de paquets (bas niveau) `dpkg`](https://doc.ubuntu-fr.org/dpkg) ou `apt`:
