@@ -5,7 +5,7 @@ Sources, démos, exercices et corrections du module développement "natif" (à u
 - [Développement "natif" (à une plateforme), client lourd](#développement-natif-à-une-plateforme-client-lourd)
   - [Démos](#démos)
     - [C : Compilation, édition des liens, shared librairies, ABI](#c--compilation-édition-des-liens-shared-librairies-abi)
-    - [Créer et distribuer un paquet sur une distribution GNU/Linux Debian](#créer-et-distribuer-un-paquet-sur-une-distribution-gnulinux-debian)
+    - [Déploiement d'un package](#déploiement-dun-package)
     - [Dart et Flutter](#dart-et-flutter)
     - [Electron](#electron)
   - [Exercices](#exercices)
@@ -22,8 +22,9 @@ Sources, démos, exercices et corrections du module développement "natif" (à u
 - [Encapsulation stricte en C](./demos-c/demo-encapsulation-stricte/)
 - [Casser une ABI, conséquences et semantic versioning](./demos-c/demo-compilation-widget/)
 
-### Créer et distribuer un paquet sur une distribution GNU/Linux Debian
+### Déploiement d'un package
 
+- [Créer et distribuer un paquet sur une distribution GNU/Linux Debian](./demo-apt/)
 
 ### Dart et Flutter
 
