@@ -3,17 +3,19 @@
 Sources, démos, exercices et corrections du module développement "natif" (à une plateforme)
 
 - [Développement "natif"](#développement-natif)
-  - [Démos C](#démos-c)
+  - [Démos C : Compilation, édition des liens, shared librairies, ABI](#démos-c--compilation-édition-des-liens-shared-librairies-abi)
   - [Démos Dart et Flutter](#démos-dart-et-flutter)
   - [Exercices Dart](#exercices-dart)
   - [Exercices Flutter](#exercices-flutter)
   - [Démos Electron](#démos-electron)
   - [Références utiles](#références-utiles)
 
-## Démos C
+## Démos C : Compilation, édition des liens, shared librairies, ABI
 
 - [Procesus de compilation](./demos-c/demo-processus-compilation/)
 - [Compiler, distribuer et utiliser une librairie partagée](./demos-c/demo-linkage/)
+- [Encapsulation stricte en C](./demos-c/demo-encapsulation-stricte/)
+- [Casser une ABI, conséquences et semantic versioning](./demos-c/demo-compilation-widget/)
 
 ## Démos Dart et Flutter
 
