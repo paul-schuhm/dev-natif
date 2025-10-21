@@ -1,0 +1,4 @@
+*.o
+*.s
+say-hi
+a.out

@@ -1,11 +1,10 @@
 # Développement "natif"
 
-Code source du module d'enseignement *Développement Natif*
+Sources, démos, exercices et corrections du module développement "natif" (à une plateforme)
 
 - [Développement "natif"](#développement-natif)
   - [Démos C](#démos-c)
-  - [Démos Dart](#démos-dart)
-  - [Démos Flutter](#démos-flutter)
+  - [Démos Dart et Flutter](#démos-dart-et-flutter)
   - [Exercices Dart](#exercices-dart)
   - [Exercices Flutter](#exercices-flutter)
   - [Démos Electron](#démos-electron)
@@ -13,15 +12,12 @@ Code source du module d'enseignement *Développement Natif*
 
 ## Démos C
 
-- [Démo compilation](./demos-c/demo1-compilation/)
-- [Démo compiler, distribuer et utiliser une librairie](./demos-c/demo2-linkage/)
+- [Démo procesus de compilation](./demos-c/demo-processus-compilation/)
+- [Démo compiler, distribuer et utiliser une librairie](./demos-c/demo-linkage/)
 
-## Démos Dart
+## Démos Dart et Flutter
 
 - [Démos programmation orientée objet](./demos-dart/poo-premiers-pas.dart)
-
-## Démos Flutter
-
 - [Démo du bon usage des keys](./demo-flutter/use_of_key/)
 - [Démo Navigator pour faire de la navigation sur une pile](./demos-flutter/navigator/navigator/)
 - [Démos sur les stratégies de gestion d'état](./demos-flutter/managing_states/)
@@ -47,4 +43,4 @@ Code source du module d'enseignement *Développement Natif*
 ## Références utiles
 
 - [Semantic Versioning](https://semver.org/), publié à l'origine par [Tom Preston-Werner](https://tom.preston-werner.com/) (cofondateur Github). [Voir le dépôt associé](https://github.com/semver/semver)
-- [Software versioning](https://en.wikipedia.org/wiki/Software_versioning), article de wikipédia sur le verisonnement logiciel
+- [Software versioning](https://en.wikipedia.org/wiki/Software_versioning), article Wikipédia sur le versionnement logiciel
