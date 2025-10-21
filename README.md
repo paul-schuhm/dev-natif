@@ -12,8 +12,8 @@ Sources, démos, exercices et corrections du module développement "natif" (à u
 
 ## Démos C
 
-- [Démo procesus de compilation](./demos-c/demo-processus-compilation/)
-- [Démo compiler, distribuer et utiliser une librairie](./demos-c/demo-linkage/)
+- [Procesus de compilation](./demos-c/demo-processus-compilation/)
+- [Compiler, distribuer et utiliser une librairie partagée](./demos-c/demo-linkage/)
 
 ## Démos Dart et Flutter
 
