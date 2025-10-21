@@ -13,6 +13,8 @@ Dans cette démonstration, nous allons compiler du code source C vers un binaire
     - [Linkage (Édition des liens)](#linkage-édition-des-liens)
     - [Executer](#executer)
   - [Bonus : scripter le processus de compilation avec `make`](#bonus--scripter-le-processus-de-compilation-avec-make)
+    - [Présentation de `make`](#présentation-de-make)
+    - [Pratique](#pratique)
   - [Conclusion](#conclusion)
   - [Annexes](#annexes)
     - [WSL : Erreurs rencontrées et configuration de Windows](#wsl--erreurs-rencontrées-et-configuration-de-windows)
@@ -162,13 +164,15 @@ gcc main.o -o say-hi
 
 ## Bonus : scripter le processus de compilation avec `make`
 
+### Présentation de `make`
+
 `make` est un programme qui permet de maintenir des programmes. Il permet d'automatiser la compilation de programmes à partir des fichiers sources. `make` fonctionne sur la base de *règles* à écrire.
 
 > Essayez `man make`. Lisez. 
 
-Une instruction dans un Makefile est une règle. Chaque règle a une cible (*target*), des prérequis et une suite de commande pour la construire.
+Une instruction dans un Makefile est une règle (*rule*). Chaque règle a une cible (*target*), des prérequis et une suite de commande pour la construire.
 
-**Créer** un fichier `Makefile`. Voici le template d'une règle `make` :
+Voici le template d'une règle `make` :
 
 ~~~Makefile
 cible: dependance1 dependance2
@@ -188,11 +192,13 @@ make cible
 
 L'avantage de `make` c'est que si la cible est un fichier, il **ré-exécutera la règle uniquement si l'une de ses dépendances est plus récente que la cible**, en se basant sur les dates de modification des fichiers.
 
-- make compare la date de modification du fichier cible avec celles de ses dépendances;
-- Si une dépendance est plus récente que la cible, la règle est réexécutée pour regénérer la cible;
-- Sinon, make considère la cible à jour et ne fait rien.
+- `make` compare la date de modification du fichier cible avec celles de ses dépendances;
+- Si une dépendance est **plus récente** que la cible, la règle est ré-exécutée pour reproduire la cible;
+- Sinon, `make` considère la cible à jour et ne fait rien.
 
-Ce mécanisme rend make très efficace pour recompiler des projets sans étapes inutiles.
+Ce mécanisme rend `make` très efficace pour recompiler des projets sans étapes inutiles.
+
+### Pratique
 
 1. **Écrire** un `Makefile` qui permet de réaliser chaque étape du *build* (compilation, assemblage et linkage) *indépendamment*. Chaque règle doit pouvoir être exécutée directement. Par exemple, on doit pouvoir procéder au linkage sans *explicitement* passer par les phases de compilation et d'assemblage.
 
@@ -202,7 +208,7 @@ Ce mécanisme rend make très efficace pour recompiler des projets sans étapes 
 VARIABLE=VALEUR
 ~~~
 
-Pour déférencer cette variable (extraire sa valeur) dans le `Makefile`:
+Utiliser la syntaxe `$(VARIABLE)` pour déférencer cette variable (extraire sa valeur) dans le `Makefile`:
 
 ~~~Makefile
 #Ceci est un commentaire
