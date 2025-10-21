@@ -4,38 +4,39 @@
 - [Développement natif - Démonstration 2 : développer un programme *natif* en C, fiche de suivi](#développement-natif---démonstration-2--développer-un-programme-natif-en-c-fiche-de-suivi)
   - [Objectifs](#objectifs)
   - [Situation initiale](#situation-initiale)
-  - [Qu'est ce qu'une librairie partagée (shared library) ?](#quest-ce-quune-librairie-partagée-shared-library-)
+  - [Qu'est-ce-qu'une librairie partagée (*shared library*) ?](#quest-ce-quune-librairie-partagée-shared-library-)
   - [Créer une librairie partagée](#créer-une-librairie-partagée)
   - [Utiliser la librairie dynamique dans son projet](#utiliser-la-librairie-dynamique-dans-son-projet)
     - [Compiler](#compiler)
-    - [Linker](#linker)
+    - [Édition des liens (linkage)](#édition-des-liens-linkage)
+  - [Linkage dynamique vs Linkage Statique](#linkage-dynamique-vs-linkage-statique)
   - [Conclusion de cette démo](#conclusion-de-cette-démo)
 
 
 ## Objectifs
 
-- Comprendre la phase de *linkage* avec des librairies (fournie par la plateforme ou les nôtres)
-- Créer et distribuer sa propre librairie partagée (*shared library*)
+- Comprendre la phase d'édition des liens (*linkage*) avec des librairies (fournies par la plateforme ou les nôtres);
+- Créer, distribuer et utiliser sa propre librairie partagée (*shared library*).
 
 ## Situation initiale
 
 > On parlera indistinctement de *library*, librairie ou bibliothèque. On parle souvent de librairie en français malgré le fait que la traduction correcte de library soit bibliothèque. Néanmoins, le mot librairie est plus court et c'est un faux ami qui permet de faire la correspondance du concept dans les deux langues. Et puis, une librairie et une bibliothèque proposent toutes les deux des livres à utiliser donc le sens n'est pas totalement perdu.
 
-Nous avons une *library*, du code, `mylib` que nous souhaiterions distribuer. Cette library contient des fonctions et des structures de données *utiles*. Si nous voulons distribuer ce code, nous n'allons distribuer que le header (`mylib.h`) et le binaire, et non le code source de l'implémentation (`mylib.c`), car l'utilisateur n'a pas à la connaître pour s'en servir. Il a seulement besoin de connaître les *déclarations* (l'API de ma library).
+Nous avons une *library*, du code, `mylib` que nous souhaiterions distribuer. Cette library contient des fonctions et des structures de données *utiles*. Si nous voulons distribuer ce code, nous n'allons distribuer que le fichier header (`mylib.h`) et le binaire, et non le code source de l'implémentation (`mylib.c`), car l'utilisateur·ice n'a pas à la connaître pour s'en servir. Il a seulement besoin de 1) connaître son API 2) disposer de son code compilé.
 
 Pour cela, je vais donc distribuer aux utilisateur·ices :
 
-- Le header `mylib.h`, pour que l'utilisateur connaisse les signatures des fonctions
-- Mon implémentation compilée sous forme de librairie partagée (*shared library*) (`.so`)
+- Le header `mylib.h`, pour que l'utilisateur connaisse les signatures des fonctions;
+- Mon implémentation compilée sous forme de librairie partagée (*shared library*) (`.so`).
 
 <!-- 
 Présenter le projet : mylib.h et mylib.c
 Glisser un mot sur l'encapsulation en C (forward declaration)
  -->
 
-## Qu'est ce qu'une librairie partagée (shared library) ?
+## Qu'est-ce-qu'une librairie partagée (*shared library*) ?
 
-Une librairie partagée est un *fichier objet* (binaire, *code source compilé*). Sous Unix, les shared libraries sont appelées *shared object* (d'où l'extension `.so`), sous Windows elles sont appelées *dynamic link libraries* (ou DLLs, d'où l'extension `.dll`). Cela permet de partager des implémentations sous forme de binaire : fonctions, structures de données, etc.. 
+Une librairie partagée (*shared library*) est un *fichier objet* (un fichier binaire, code source compilé). Sous Unix, les *shared libraries* sont appelées *shared object* (d'où l'extension `.so`), sous Windows elles sont appelées *dynamic link libraries* (ou DLLs, d'où l'extension `.dll`). Cela permet de partager des implémentations sous forme de binaire : fonctions, structures de données, etc.. 
 
 Le code ainsi compilé peut être utilisé *par plusieurs programmes en même temps* (d'où le *shared library*). La librairie partagée est *linkée* de manière dynamique au *run-time* (chargée en mémoire une fois, au moment de l’exécution).
 
@@ -60,15 +61,15 @@ gcc main.c mylib.c --verbose
 On peut voir: quel assembleur, ou ils chercher les lib ave "include". /usr/lib/stdio.h. Si on cat/grep stdio.h pour printf on voit sa déclaration 
  -->
 
-La librairie partagée `libmylib.so` est crée. Je distribue `mylib.h` et `libmylib.so` aux utilisateurs. Ma librairie partagée *est spécifique à une plateforme* (c'est du code compilé !). Si elle est compilée pour GNU/Linux, elle ne pourra être éxecutée par Windows ou Android par exemple.
+La librairie partagée `libmylib.so` est crée. Je distribue `mylib.h` et `libmylib.so` aux utilisateurs. Ma librairie partagée *est spécifique à une plateforme* (c'est du code compilé !). Si elle est compilée pour GNU/Linux, elle ne pourra être exécutée par Windows ou Android par exemple.
 
 ## Utiliser la librairie dynamique dans son projet
 
-En tant qu'utilisateur, je récupère une copie de ces deux fichiers (`mylib.h` et `libmylib.so`) pour les utiliser dans mon propre projet (ici `main.c`)
+En tant qu'utilisateur·ice, je récupère une copie de ces deux fichiers (`mylib.h` et `libmylib.so`) pour les utiliser dans mon propre projet (ici `main.c`)
 
 ### Compiler
 
-1. Pour pouvoir utiliser la librairie mylib dans mon projet, quelle est la première chose à faire ?
+1. Pour pouvoir utiliser la librairie `mylib` dans mon projet, quelle est la première chose à faire ?
    
 <!-- Je dois include le header pour dire au compilateur que les appels de fonctions ou structure de données que j'utilise sont définies quelque part et que je respecte leur signature. -->
 
@@ -76,36 +77,44 @@ En tant qu'utilisateur, je récupère une copie de ces deux fichiers (`mylib.h` 
 #include "mylib.h"
 ~~~
 
-Je compile mon projet, cela me crée un *object file* `myapp.o`
+Je compile mon projet, cela me crée un *object file* `myapp.o` :
 
 ~~~bash
 gcc -o myapp.o -c main.c
 ~~~
 
-### Linker
+### Édition des liens (linkage)
 
-Le binaire `main.o` n'est pas encore executable car il contient des *références* vers des libraires : `mylib` (`struct Foo`, `createFoo`, `destroyFoo`) et `stdio.h` (`printf`). Inclure le header a permis de fournir des déclarations, donc lors de la phase de compilation, le compilateur a seulement vérifier que les fonctions et structures existaient et avaient la bonne signature. 
 
-Le fichier objet contient encore ses références, elles doivent à présent être remplacées par le code source (du binaire) pour fabriquer l'executable. C'est l'étape de linkage (*linking*). 
+2. Ouvrir le fichier `myapp.o` avec un éditeur de texte. Que remarque-t-on ? Que reste-il à faire pour produire l'executable ?
 
-2. Ouvrir le fichier `myapp.o`. Que remarque-t-on ? Que reste-il à faire pour produire l'executable ?
+Le binaire `main.o` **n'est pas encore exécutable** car il contient des *références* (symboles) vers des *objets* définis dans ses dépendances : la librairie `mylib` (`struct Foo`, `createFoo`, `destroyFoo`) et la libraire standard `libc` (`printf`). Inclure le header ne fait qu’apporter les déclarations nécessaires, permettant au compilateur de vérifier l’existence et la conformité (types, signatures de fonctions, structures) des éléments utilisés lors de la compilation.
+
+Les références doivent à présent être remplacées par le code source (binaire) pour fabriquer un vrai programme exécutable. C'est l'étape d'édition des liens (*linking*). Lors de cette étape, le *linker* insère dans le binaire : 
+
+- une **référence** au nom de la bibliothèque partagée (ici `libmylib.so`);
+- des **tables de symboles** (pour savoir quoi chercher dans la `.so`, par exemple une fonction);
+- un **chemin** ou alias permettant de localiser la `.so` sur le système.
+
 
 <!-- Si on ouvre le fichier `main.o`, on voit qu'il contient du binaire incompréhensible par l'éditeur de texte. On retrouve les références : `main`, `createFoo`, `printf`, `destroyFoo`. Le linker doit à présent remplacer ces références par le code source. -->
 
 > Le système a des moyens (il est configuré pour) pour trouver tout seul où se trouve la librairie compilée de `stdio.h` (le binaire s'appelle `libc.so`). Mon executable sera linké de manière dynamique par le linker au binaire de `printf` (qu'il sait trouver) qui sera chargé en mémoire.
 
-Il faut donc ici seulement linker le fichier objet `main.o` avec la librairie dynamique `libmylib.so`
+Il faut donc ici seulement linker le fichier objet `main.o` avec ma librairie `libmylib.so` :
 
 ~~~bash
-#Création de l’exécutable main avec linkage dynamique vers la librairie. Plusieurs options
+#Création de l’exécutable main avec linkage dynamique vers la librairie. Plusieurs options :
+
 ##Option 1
 gcc -L$(pwd) main.o -lmylib -o myapp -Wl,-rpath,$(pwd)
+
 ##Option 2 (s'assurer qu'/usr/local/lib est sur LD_LIBRARY_PATH)
 sudo cp libmylib.so /usr/local/lib/
 gcc -L$(pwd) main.o -lmylib -o myapp
 ~~~
 
-Executer
+Executer :
 
 ~~~bash
 ./myapp
@@ -128,41 +137,47 @@ gcc --help pour voir les options
 
 3. **Écrire** un `Makefile` pour automatiser la compilation de la librairie partagée `mylib` et la compilation de mon programme `myapp` qui utilise cette librairie.
 
-> Pour écrire un Makefile, commencez par vous demander quelle est la cible (fichier à construire), de quoi dépend-il et enfin comment le construire.
+> Pour écrire un `Makefile`, commencez par vous demander quelle est la cible (fichier à construire), de quoi dépend-il et enfin comment le construire.
 
-> En situation réelle, on séparerait ces deux phases de build dans deux Makefile séparés. Chaque projet (la librairie et l'application) aurait son Makefile et son *dépôt*.
+> En situation réelle, on séparerait ces deux phases de build dans deux `Makefile` séparés. Chaque projet (la librairie et l'application) aurait son Makefile et son *dépôt*.
 
 
-4. Exécutez deux fois d'affilée la règle pour construire la librairie. Que remarquez-vous ?
+4. **Exécuter** deux fois d'affilée la règle pour construire la librairie. Que remarquez-vous ?
 
 <!-- 
 Make only rebuilds a target if the target does not exist, or the target is older than one of its dependencies
  -->
 
-5. Modifier le code source de la librairie et ajouter une fonction `substract` qui calcule la différence entre deux structures `Foo`. Ré-executer le programme `myapp`.
-6. Supposons que je souhaite utiliser `mylib` (`mylib.h` et `mylib.so`) sur Windows. Puis-je l'utiliser telle quelle ? Pourquoi ? Quelles solutions s'offrent à cet utilisateur pour s'en servir ?
+5. **Modifier** le code source de la librairie et ajouter une fonction `substract` qui calcule la différence entre deux structures `Foo`. **Ré-executer** le programme `myapp`.
+6. Supposons que je souhaite utiliser `mylib` (`mylib.h` et `mylib.so`) sur Windows. Puis-je l'utiliser telle quelle ? Pourquoi ? Quelles solutions s'offrent à moi pour m'en servir ?
 
 <!-- 
 Ici je ne pourrai pas distribuer mylib directement à un user windows, car le format .so n'est pas connu de Windows. Il faudrait qu'il la recompile à partir du code source s'il l'a. Sinon je dois donc fournir les binaires pour sa plateforme (mylib.dll)
  -->
 
+## Linkage dynamique vs Linkage Statique
+
+L'édition des liens peut être fait de **deux manières** :
+
+- de manière **dynamique** (*dynamic linking*), comme on vient de le faire, où seules des **références vers les bibliothèques partagées (.so) sont enregistrées dans le binaire**. Le code est chargé en mémoire à l’exécution par le chargeur dynamique. Le binaire est plus léger et **bénéficie des mises à jour des bibliothèques sans recompilation**;
+- de manière **statique** (*static linking*). Le code des libs **est copié directement dans le binaire au moment de l’édition des liens**. Le programme devient **autonome**, **mais** le binaire est **plus gros** et **doit être recompilé si une bibliothèque change**..
+
+
 ## Conclusion de cette démo
 
-- Le linkage consiste à remplacer les références vers des déclarations de fonctions/variables par l'adresse en mémoire de leur code binaire;
-- Le linkage est une étape cruciale pour fabriquer un executable. Il permet d'utiliser les librairies fournies par la plateforme (cela fait partie de son SDK)
-- Le processus de linkage est spécifique à chaque OS
-- Chaque OS a sa propre API (binary format, system calls et fonctions, etc.) 
-- Pour executer un programme issu d'un même code source vers une autre plateforme (par exemple de Linux à Windows), il *faut le recompiler* (ou utiliser une couche logicielle d'émulation comme WINE ou Cygwin) et avoir une partie du SDK en commun
+- L’édition des liens (linking) consiste à résoudre les symboles utilisés (fonctions, variables, etc.) dans un programme en les associant à leurs définitions réelles (code binaire);
+- **L'édition des liens (*linking*) est une étape cruciale** pour fabriquer un executable permettant d’intégrer les bibliothèques et composants fournis par la plateforme (SDK);
+- Le processus d'édition des liens **dépend de la plateforme et du système d’exploitation**, chacun ayant ses propres formats de fichiers et conventions.
+
 
 <!-- 
-
 Différence entre OS API et OS SDK:
 
 - An API is a set of functions, protocols, and tools provided by an operating system to allow developers to interact with the underlying system. 
 - SDK is a set of tools, libraries, documentation, and samples provided by the OS vendor to assist developers in creating applications for a particular operating system. 
 
-L'idée c'est que vous comprenez pourquoi un programme prévu pour Linux ne va pas marcher sur Windows ou macOs ou Android. C'est vrai pour tous les os, sauf ceux qui ont en commun. Car chaque plateforme à son API (ses libraires, son format d'éxecutable, ses fonctions stysteme, etc.). Donc lorsque l'on compile un programme pour en faire un binaire, *on vise une plateforme*. La phase de linkage est par exemple une phase qui va être propre à chaque plateforme. Pour cette raison que Linux n'a toujours pas gagné sur Dekstop, car la distribution d'application ( de binaires) sur Linux est en enfer : chaque distribution a ses libs dans une certaine version et ses propres paths (important pour le linkage). Distribuer sur Linux c'est plutot distribuer pour fedoravX.Y, debianX.Y, etc. un bordel ! D'ou les initiatives comme AppImage, Flatpak ou snap qui sont des conteneurs d'apps linux (bin+deps+path) pour regler le pb. Sinon il ya  la compilation statique mais ca scale mal (binaire embarque ses deps, taille binaire enorme, si modif d'une lib il faut tout recompiler !!)
-Voilà, l'idée que vous devez retenir c'est que derrière chaque executable (binaire), il y a énormément de choses spécifique à chaque système.
+L'idée c'est que vous comprenez pourquoi un programme prévu pour Linux ne va pas marcher sur Windows ou macOs ou Android. C'est vrai pour tous les os. Car chaque plateforme à son API (ses libraires, son format d'éxecutable, ses fonctions systeme, etc.). Donc lorsque l'on compile un programme pour en faire un binaire, *on vise une plateforme*. La phase de linkage est par exemple une phase qui va être propre à chaque plateforme. Pour cette raison que Linux n'a toujours pas gagné sur Dekstop, car la distribution d'application ( de binaires) sur Linux est en enfer : chaque distribution a ses libs dans une certaine version et ses propres paths (important pour le linkage). Distribuer sur Linux c'est plutot distribuer pour fedoravX.Y, debianX.Y, etc. un bordel ! D'ou les initiatives comme AppImage, Flatpak ou snap qui sont des conteneurs d'apps linux (bin+deps+path) pour regler le pb. Sinon il ya  la compilation statique mais ca scale mal (binaire embarque ses deps, taille binaire enorme, si modif d'une lib il faut tout recompiler !!)
+Voilà, l'idée que vous devez retenir c'est que derrière chaque executable (binaire), il y a énormément de choses spécifique à chaque plateforme.
  -->
 
 <!--
