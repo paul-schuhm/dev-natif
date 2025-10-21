@@ -1,8 +1,8 @@
-# Développement natif - Démonstration 1 : développer un programme *natif* en C, fiche de suivi
+# Développement natif - Démonstration 1 : Processus de compilation
 
 Dans cette démonstration, nous allons compiler du code source C vers un binaire executable par l'OS. Nous allons voir en détail les différentes étapes de la compilation.
 
-- [Développement natif - Démonstration 1 : développer un programme *natif* en C, fiche de suivi](#développement-natif---démonstration-1--développer-un-programme-natif-en-c-fiche-de-suivi)
+- [Développement natif - Démonstration 1 : Processus de compilation](#développement-natif---démonstration-1--processus-de-compilation)
   - [Objectifs](#objectifs)
   - [Pré-requis](#pré-requis)
     - [Sous Gnu/Linux (Debian, Ubuntu)](#sous-gnulinux-debian-ubuntu)

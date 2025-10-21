@@ -1,7 +1,7 @@
-# Développement natif - Démonstration 2 : développer un programme *natif* en C, fiche de suivi
+# Développement natif - Démonstration 2 : Créer et utiliser des librairies partagées, phase d'édition des liens
 
 
-- [Développement natif - Démonstration 2 : développer un programme *natif* en C, fiche de suivi](#développement-natif---démonstration-2--développer-un-programme-natif-en-c-fiche-de-suivi)
+- [Développement natif - Démonstration 2 : Créer et utiliser des librairies partagées, phase d'édition des liens](#développement-natif---démonstration-2--créer-et-utiliser-des-librairies-partagées-phase-dédition-des-liens)
   - [Objectifs](#objectifs)
   - [Situation initiale](#situation-initiale)
   - [Qu'est-ce-qu'une librairie partagée (*shared library*) ?](#quest-ce-quune-librairie-partagée-shared-library-)
@@ -15,7 +15,7 @@
 
 ## Objectifs
 
-- Comprendre la phase d'édition des liens (*linkage*) avec des librairies (fournies par la plateforme ou les nôtres);
+- Comprendre la phase d'édition des liens (*linking*) avec des librairies (fournies par la plateforme (SDK) ou les nôtres);
 - Créer, distribuer et utiliser sa propre librairie partagée (*shared library*).
 
 ## Situation initiale
@@ -157,9 +157,9 @@ Ici je ne pourrai pas distribuer mylib directement à un user windows, car le fo
 
 ## Linkage dynamique vs Linkage Statique
 
-L'édition des liens peut être fait de **deux manières** :
+L'édition des liens peut être fait de **deux manières**, chacune ayant ses avantages et ses inconvénients :
 
-- de manière **dynamique** (*dynamic linking*), comme on vient de le faire, où seules des **références vers les bibliothèques partagées (.so) sont enregistrées dans le binaire**. Le code est chargé en mémoire à l’exécution par le chargeur dynamique. Le binaire est plus léger et **bénéficie des mises à jour des bibliothèques sans recompilation**;
+- de manière **dynamique** (*dynamic linking*), comme on vient de le faire, où seules des **références vers les bibliothèques partagées (.so) sont enregistrées dans le binaire**. Le code est chargé en mémoire à l’exécution par le chargeur dynamique. Le binaire est plus léger et **bénéficie des mises à jour des bibliothèques sans recompilation** et **permet le partage d’une même bibliothèque entre plusieurs programmes**;
 - de manière **statique** (*static linking*). Le code des libs **est copié directement dans le binaire au moment de l’édition des liens**. Le programme devient **autonome**, **mais** le binaire est **plus gros** et **doit être recompilé si une bibliothèque change**..
 
 
@@ -213,18 +213,15 @@ In C, a static library is a collection of object code that is linked directly in
 
 Here are some key points about static libraries:
 
-Code Reusability: Static libraries allow developers to reuse common code across multiple programs. By statically linking the library into an executable, the functions and resources from the library become part of the final binary.
+- Linking at Compile-Time: Unlike shared libraries, which are linked dynamically at runtime, static libraries are linked directly into the executable during the compilation process. This means that all the necessary library code becomes part of the final executable, resulting in a standalone binary.
 
-Linking at Compile-Time: Unlike shared libraries, which are linked dynamically at runtime, static libraries are linked directly into the executable during the compilation process. This means that all the necessary library code becomes part of the final executable, resulting in a standalone binary.
+- Independence: When using a static library, the executable becomes self-contained and does not rely on external library files. This makes it easier to distribute and deploy the program because all the required code is bundled within the executable itself.
 
-Independence: When using a static library, the executable becomes self-contained and does not rely on external library files. This makes it easier to distribute and deploy the program because all the required code is bundled within the executable itself.
-
-Efficiency: Since the library code is included directly in the executable, there is no need for the overhead of loading and resolving symbols at runtime. This can result in slightly faster execution times compared to using shared libraries.
+- Efficiency: Since the library code is included directly in the executable, there is no need for the overhead of loading and resolving symbols at runtime. This can result in slightly faster execution times compared to using shared libraries.
 
 To use a static library in your C program, you typically need to include its header file(s) that define the functions and data structures provided by the library. During compilation, you need to specify the linker flags to indicate the path to the static library file and link it against your program.
 
 Static libraries have the advantage of simplicity and portability since they do not require the presence of external dependencies at runtime. However, they may result in larger file sizes and lack the flexibility of shared libraries when it comes to updating and versioning.
-
 
 -- ABI (Application Binary Interface)
 
