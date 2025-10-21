@@ -1,8 +1,8 @@
-# Développement "natif"
+# Développement "natif" (à une plateforme), client lourd
 
 Sources, démos, exercices et corrections du module développement "natif" (à une plateforme)
 
-- [Développement "natif"](#développement-natif)
+- [Développement "natif" (à une plateforme), client lourd](#développement-natif-à-une-plateforme-client-lourd)
   - [Démos](#démos)
     - [C : Compilation, édition des liens, shared librairies, ABI](#c--compilation-édition-des-liens-shared-librairies-abi)
     - [Créer et distribuer un paquet sur une distribution GNU/Linux Debian](#créer-et-distribuer-un-paquet-sur-une-distribution-gnulinux-debian)
