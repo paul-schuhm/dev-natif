@@ -7,13 +7,15 @@ Dans cette démonstration, nous allons compiler du code source C vers un binaire
   - [Pré-requis](#pré-requis)
     - [Sous Gnu/Linux (Debian, Ubuntu)](#sous-gnulinux-debian-ubuntu)
     - [Sous Windows](#sous-windows)
-  - [Erreurs rencontrées et configuration de Windows](#erreurs-rencontrées-et-configuration-de-windows)
   - [Compiler du code source C vers du langage machine (binaire)](#compiler-du-code-source-c-vers-du-langage-machine-binaire)
     - [Compilation](#compilation)
     - [Assemblage](#assemblage)
-    - [Linkage](#linkage)
+    - [Linkage (Édition des liens)](#linkage-édition-des-liens)
+    - [Executer](#executer)
   - [Bonus : scripter le processus de compilation avec `make`](#bonus--scripter-le-processus-de-compilation-avec-make)
-  - [Conclusion de cette démo](#conclusion-de-cette-démo)
+  - [Conclusion](#conclusion)
+  - [Annexes](#annexes)
+    - [WSL : Erreurs rencontrées et configuration de Windows](#wsl--erreurs-rencontrées-et-configuration-de-windows)
 
 
 ## Objectifs
@@ -33,7 +35,7 @@ sudo apt install gcc
 
 ### Sous Windows
 
-Installer WSL 2 pour accéder à un environnement GNU/Linux (Ubuntu par défaut) sur votre machine.
+[Installer WSL 2](https://learn.microsoft.com/fr-fr/windows/wsl/install) pour accéder à un environnement GNU/Linux (Ubuntu par défaut) sur votre machine.
 
 <!-- 
 Windows Subsystem for Linux (WSL) est un composant de Microsoft Windows permettant d'exécuter des binaires Linux de manière native sur Windows 10, 11 et Windows Server 2019. Les exécutables Linux sont au format ELF, format popularisé par l'Unix System Laboratories, un laboratoire de recherche appartenant à AT&T, la grande entreprise des télécoms américaine, célèbre notamment pour son laboratoire Bells Labs, dont UNIX est sorti à la fin des années 70. Ce composant a été intégré à Windows en 2016, et a été remplacé en 2019 par WSL 2, une version basée sur une machine virtuelle plus légère. WSL2 embarque directement le noyau Linux et offre de meilleures performances, plus proche d'un Linux natif, que son prédécesseur.
@@ -56,37 +58,9 @@ wsl --update
 Ce programme active les fonctionnalités nécessaires pour exécuter la WSL, télécharge et installe le dernier noyau Linux, définit WSL 2 comme valeur par défaut et télécharge la distribution Ubuntu. Si WSL est déjà installé, le programme wsl vous l'indique et vous demande de choisir la distribution à servir, vous avez le choix entre plusieurs distributions GNU/Linux comme Ubuntu, Debian ou openSUSE. Pour installer Ubuntu :
  -->
 
-<!-- 
-En cas de problèmes avec wsl, veuillez consulter cette page de problèmes connus avant de demander de l'aide. Vous pouvez également consulter la FAQ pour en savoir plus.
+En cas de problèmes avec WSL, [reportez-vous à cette section](#wsl--erreurs-rencontrées-et-configuration-de-windows).
 
- -->
-
-## Erreurs rencontrées et configuration de Windows
-
-En cas de problèmes avec wsl, veuillez [consulter cette page de problèmes connus](https://learn.microsoft.com/fr-fr/windows/wsl/troubleshooting) avant de demander de l'aide. Vous pouvez également consulter la FAQ pour en savoir plus.
-
- Pour exécuter WSL 2, vous devez au préalable *activer la plateforme de machine virtuelle Windows* (appelée Hyper-V). Si ce n'est pas le cas, vous allez obtenir un message comme celui-ci `"Please enable the virtual Machine Platform WIndows feature and ensure virtualization is enabled in the BIOS"`. 
-
- Pour activer la plateforme de virtualisation, redémarrer votre machine, appuyez sur `F2` ou la touche indiquée indiquée par votre carte-mère pour accéder au BIOS. Vous devez également vous assurer que les fonctionnalités Plateforme de l'hyperviseur Windows et Plateforme de machine virtuelle sont bien activées. Tapez `“fonctionnalités windows”` dans votre barre de recherche, puis activez-les. Redémarrez votre machine. 
-
-
-<img width="80%" src="wsl.png"/>
-
-Vérifier l'installation
-
-~~~bash
-systeminfo
-~~~
-
-La dernière entrée du rapport généré vous indiquera la configuration requise pour Hyper-V. Vérifier que tous les prérequis sont bien remplis.
-
-Pour lister les distributions installées
-
-~~~bash
-wsl -l -v
-~~~
-
-Ouvrir la WSL. Choisissez un nom d'utilisateur et un mot de passe pour le système GNU/Linux. Cet utilisateur est l'administrateur du système avec la capacité d'exécuter des commandes d'administration (`sudo`). WSL va vous ouvrir shell sur votre instance GNU/Linux. Executer les commandes suivantes :
+Ouvrir la WSL. Choisissez un nom d'utilisateur et un mot de passe pour le système GNU/Linux. Cet utilisateur est l'administrateur du système avec la capacité d'exécuter des commandes d'administration (`sudo`). WSL va vous ouvrir un *shell* sur votre instance GNU/Linux. Executer les commandes suivantes :
 
 ~~~bash
 #Mettre à jour la liste des paquets
@@ -158,56 +132,23 @@ Cela crée un fichier objet (executable au format ELF) `main.o`.
 A l'assemblage, le langage assembleur est transformé en binaire. Cela produit un fichier objet .o, qui contient encore les refs vers les fonctions de la libraire standard incluse (deps).
  -->
 
-### Linkage 
+### Linkage (Édition des liens)
 
-<!-- 
-Compilation Assemblage Linkage (CAS)
-gcc -c: compilation et assemblage faits en une étape. gcc main.c ferait compilation, assemblage et linkage en une étape.
--c : Compile and assemble
--S : Compile seulement
--o <file>: Place the output file into <file>
- -->
+`main.o` est un binaire intermédiaire, qui n'est pas encore exécutable. Il contient des références (symboles) vers les fonctions de la librairie standard utilisées par le programme (ici `printf`). Pour indiquer où trouver le code de ces fonctions, il faut réaliser *l'édition des liens* ou *linkage*.
 
-
-**Linker** pour créer le programme (link vers l'implémentation de `printf` de la librairie standard)
+**Linker** pour créer l’exécutable final :
 
 ~~~bash
 gcc main.o -o say-hi
 ~~~
 
-> L'option `-o` permet de contrôler le nom de fichier de sortie
+> L'option `-o` permet de contrôler le nom de fichier de sortie. Sous le capot, `gcc` utilise le linker `ld`
 
-> Sous le capot, `gcc` utilise le linker `ld`
 
-<!-- 
+> On parle d'édition des liens dynamique ici. Le code des dépendances n'est pas intégré au binaire. [Voir la démo sur le linkage](../demo-linkage/) pour en apprendre plus.
 
-Le linkage permet de faire l'édition des liens : les références aux fonctions sont liés au code binaire de la lib standard (.so). A l'execution, le lien permettra, a la volée d'appeler le binaire de la fonction et de l'executer.
+### Executer
 
-Q : When it is compiled, does printf binary code is linked dynamically to my executable ?
-
-When you compile your code that includes the printf function from the <stdio.h> library, the binary code for the printf function is linked dynamically to your executable.
-
-Dynamically linking means that the implementation of the printf function is not included directly in your executable file. Instead, a reference to the printf function is added to your executable, and at runtime, the operating system's dynamic linker/loader will locate and load the binary code for the printf function from the system's shared library (e.g., libc.so or libc.dll) into memory.
-
-This dynamic linking of libraries provides several advantages, such as reducing the size of your executable file since the code for common functions is reused across multiple programs. It also allows for easier updates to the library without recompiling every program that uses it.
-
-During runtime, when your program encounters the printf function call, it jumps to the address where the printf function implementation resides in memory, executes the code of the function, and then returns control back to your program.
- 
-Q : So, in short, the binary code for the printf function is linked dynamically at runtime when your program executes.
-
-Ok, then the entire libc.so is loaded into memory even if I only use printf ?
-
-No, the entire libc.so library is not loaded into memory when you use just the printf function. When your program is executed, the dynamic linker/loader will load only the necessary parts of the libc.so library into memory. This process is known as dynamic linking and it ensures that only the required functions and data from the library are loaded.
-
-In the case of using printf, the dynamic linker/loader will load the relevant code for printf and any other dependencies that printf relies on (such as internal functions or data).
-
-Loading only the necessary parts of the library helps to optimize memory usage by loading shared libraries on demand. This way, the memory footprint of your program is kept minimal.
-
-It's worth noting that the exact mechanism and behavior of dynamic linking can vary depending on the operating system and compiler settings. But in general, the dynamic linker/loader is responsible for loading only the needed portions of shared libraries into memory.
-
-De plus, le binaire de la fonction printf (tout binaire linké de maniere dynamique) est chargé en mémoire dans une zone accessible en lecture seule, dans une zone partagée entre tous les processus utilisant la fonction printf. Donc cela permet de réduire l'impact sur la mémoire.
-
- -->
 
 **Executer** le binaire sur votre OS, via le shell
 
@@ -223,13 +164,9 @@ De plus, le binaire de la fonction printf (tout binaire linké de maniere dynami
 
 `make` est un programme qui permet de maintenir des programmes. Il permet d'automatiser la compilation de programmes à partir des fichiers sources. `make` fonctionne sur la base de *règles* à écrire.
 
-> Essayez `man make`. Lisez
+> Essayez `man make`. Lisez. 
 
-<!-- 
-Quand make est executé, il recherche dans le dossier courant un fichier Makefile ou makefile et execute la "cible"(target) par défaut. Une target est souvent un fichier (executable ou fichier objet) qui doit etre build.
-
-On définit un ensemble de règles. Chaque règle a une TARGET, des prérequis et une suite de commande pour la construire.
- -->
+Une instruction dans un Makefile est une règle. Chaque règle a une cible (*target*), des prérequis et une suite de commande pour la construire.
 
 **Créer** un fichier `Makefile`. Voici le template d'une règle `make` :
 
@@ -241,16 +178,23 @@ cible: dependance1 dependance2
 
 où `dependance1` et `dependance2` sont d'autres cibles dont `cible` dépend. Ces règles seront donc exécutées par `make` en amont.
 
-Pour executer une règle, dans le terminal
+Pour executer une règle :
 
 ~~~bash
 make cible
 ~~~
 
-Par défaut, `make` execute la première règle si aucune règle n'est spécifiée.
+> `make` recherche dans le répertoire courant un fichier `Makefile` ou `makefile` et exécute la première cible déclarée par défaut si aucune règle n'est spécifiée.
+
+L'avantage de `make` c'est que si la cible est un fichier, il **ré-exécutera la règle uniquement si l'une de ses dépendances est plus récente que la cible**, en se basant sur les dates de modification des fichiers.
+
+- make compare la date de modification du fichier cible avec celles de ses dépendances;
+- Si une dépendance est plus récente que la cible, la règle est réexécutée pour regénérer la cible;
+- Sinon, make considère la cible à jour et ne fait rien.
+
+Ce mécanisme rend make très efficace pour recompiler des projets sans étapes inutiles.
 
 1. **Écrire** un `Makefile` qui permet de réaliser chaque étape du *build* (compilation, assemblage et linkage) *indépendamment*. Chaque règle doit pouvoir être exécutée directement. Par exemple, on doit pouvoir procéder au linkage sans *explicitement* passer par les phases de compilation et d'assemblage.
-
 
 `make` permet de déclarer des variables sous forme de clef/valeur. Voici la syntaxe :
 
@@ -258,7 +202,7 @@ Par défaut, `make` execute la première règle si aucune règle n'est spécifi�
 VARIABLE=VALEUR
 ~~~
 
-Pour déférencer cette variable (extraire sa valeur) dans le `Makefile`
+Pour déférencer cette variable (extraire sa valeur) dans le `Makefile`:
 
 ~~~Makefile
 #Ceci est un commentaire
@@ -268,11 +212,38 @@ Pour déférencer cette variable (extraire sa valeur) dans le `Makefile`
 
 2. **Déclarer** une variable qui contient le nom du binaire à produire (`say-hi`). **Mettre à jour** le `Makefile` en conséquence. On souhaite que l'instruction `make` fabrique le binaire `say-hi` et affiche à la fin `"Le programme say-hi a été compilé avec succès !"`
 
-> Indice : pour afficher un message sur la sortie standard, utiliser la commande `@echo "Mon message"`.
+> Pour afficher un message sur la sortie standard, utiliser la commande `@echo "Mon message"`.
 
-## Conclusion de cette démo
+## Conclusion
 
-- Ce qu'on appelle *compilation* de manière abusive comprend en fait plusieurs étapes : compilation, assemblage, linkage
-- Chaque OS (ou langage) fournit dans son SDK des libraires utilisables pour le développement (`stdlib.h` fait partie du SDK du langage C)
-- Un *programme natif* est un programme compilé *vers une plateforme cible* (ici via `gcc`). Il est natif *à la plateforme*. Ici, il est exécuté *directement* par l'OS (code machine ou binaire)
-- Il existe des outils comme `make` pour automatiser les processus liées à la compilation, notamment dans le cas de projets réels ou le nombre de fichiers sources et de libraires est important
+- Ce qu'on appelle *compilation* de manière abusive comprend en fait plusieurs étapes : compilation, assemblage et linkage ;
+- Chaque OS (ou langage) fournit dans son SDK des libraires utilisables pour le développement (`stdlib.h` fait partie du SDK du langage C);
+- Un *programme natif* est un programme compilé *vers une plateforme cible* (ici via `gcc`). Il est natif *à la plateforme*. Ici, il est exécuté *directement* par l'OS (code machine ou binaire);
+- Il existe des outils comme `make` pour automatiser les processus liées à la compilation, notamment dans le cas de projets réels ou le nombre de fichiers sources et de libraires est important.
+
+
+## Annexes
+
+### WSL : Erreurs rencontrées et configuration de Windows
+
+En cas de problèmes avec wsl, veuillez [consulter cette page de problèmes connus](https://learn.microsoft.com/fr-fr/windows/wsl/troubleshooting) avant de demander de l'aide. Vous pouvez également consulter la FAQ pour en savoir plus.
+
+Pour exécuter WSL 2, vous devez au préalable *activer la plateforme de machine virtuelle Windows* (appelée Hyper-V). Si ce n'est pas le cas, vous allez obtenir un message comme celui-ci `"Please enable the virtual Machine Platform WIndows feature and ensure virtualization is enabled in the BIOS"`. 
+
+Pour activer la plateforme de virtualisation, redémarrer votre machine, appuyez sur `F2` ou la touche indiquée indiquée par votre carte-mère pour accéder au BIOS. Vous devez également vous assurer que les fonctionnalités Plateforme de l'hyperviseur Windows et Plateforme de machine virtuelle sont bien activées. Tapez `“fonctionnalités windows”` dans votre barre de recherche, puis activez-les. Redémarrez votre machine. 
+
+<img width="80%" src="wsl.png"/>
+
+Vérifier l'installation :
+
+~~~bash
+systeminfo
+~~~
+
+La dernière entrée du rapport généré vous indiquera la configuration requise pour Hyper-V. Vérifier que tous les prérequis sont bien remplis.
+
+Pour lister les distributions installées :
+
+~~~bash
+wsl -l -v
+~~~
