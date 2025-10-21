@@ -157,7 +157,7 @@ Ici je ne pourrai pas distribuer mylib directement à un user windows, car le fo
 
 ## Linkage dynamique vs Linkage Statique
 
-L'édition des liens peut être fait de **deux manières**, chacune ayant ses avantages et ses inconvénients :
+L'édition des liens peut être réalisée de **deux manières**, chacune ayant ses avantages et ses inconvénients :
 
 - de manière **dynamique** (*dynamic linking*), comme on vient de le faire, où seules des **références vers les bibliothèques partagées (.so) sont enregistrées dans le binaire**. Le code est chargé en mémoire à l’exécution par le chargeur dynamique. Le binaire est plus léger et **bénéficie des mises à jour des bibliothèques sans recompilation** et **permet le partage d’une même bibliothèque entre plusieurs programmes**;
 - de manière **statique** (*static linking*). Le code des libs **est copié directement dans le binaire au moment de l’édition des liens**. Le programme devient **autonome**, **mais** le binaire est **plus gros** et **doit être recompilé si une bibliothèque change**..
