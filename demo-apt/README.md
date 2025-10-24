@@ -11,8 +11,7 @@
   - [Build](#build)
   - [Tester l'application localement](#tester-lapplication-localement)
   - [Faire évoluer la version](#faire-évoluer-la-version)
-    - [Procédure manuelle](#procédure-manuelle)
-    - [Alternatives](#alternatives)
+    - [Alternatives possibles](#alternatives-possibles-1)
       - [Faire évoluer la version depuis un tag git dans une pipeline CI/CD](#faire-évoluer-la-version-depuis-un-tag-git-dans-une-pipeline-cicd)
   - [Scripts de maintenance](#scripts-de-maintenance)
   - [Distribution de releases et mises à jour via un dépôt Debian](#distribution-de-releases-et-mises-à-jour-via-un-dépôt-debian)
@@ -154,8 +153,6 @@ sudo apt remove myapp
 
 ## Faire évoluer la version
 
-### Procédure manuelle
-
 On imagine que l'application évolue. On utilise [le versionnement sémantique](https://semver.org) pour documenter les changements dans le numéro de version :
 
 - Changement mineur :
@@ -175,7 +172,7 @@ make deb
 sudo dpkg -i myapp_2.0.0.deb
 ~~~
 
-### Alternatives 
+### Alternatives possibles
 
 #### Faire évoluer la version depuis un tag git dans une pipeline CI/CD
 
