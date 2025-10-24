@@ -283,7 +283,7 @@ aptly snapshot list
 aptly publish snapshot -distribution="stable" -component="main" version1
 ~~~
 
-> `publish` crée le repertoire `~/.aptly/public` (racine du dépôt) et toute son arborescence standardisée, ainsi que les paquets à distribuer.
+> `publish` crée le repertoire `~/.aptly/public` (racine du dépôt) et toute son arborescence standardisée où sont placés les paquets.
 
 Il faut également penser à mettre à disposition **la clé publique** pour que les utilisateurs du paquet puissent vérifier l'intégrité du paquet (via une procédure de signature numérique).
 
@@ -311,30 +311,28 @@ Imaginons à présent que ce soit un serveur web, avec l'IP suivante `127.0.0.1:
 
 ### Utiliser le dépôt (point de vue user)
 
-Pour utiliser le dépôt de manière sécurisé (vérification signature) :
+Pour utiliser le dépôt de manière sécurisé il faut :
 
-- **La clef publique** à GPG pour vérifier la signature (`apt` le fera pour nous) ;
 - **L'URL du dépôt** à `apt`, pour qu'il puisse l'ajouter à sa liste de dépôts suivis. 
-
-> Note: le nom de domaine/certificat SSL (serveur hébergeant le dépôt) fait office de CA (confiance)
+- **La clef publique** de l'auteur du paquet pour vérifier la signature (`apt` le fera pour nous) ;
 
 ~~~bash
 #Télécharger et nommer et placer la clef auprès de gpg
 wget -O- http://127.0.0.1:8080/gpg | sudo gpg --dearmor --yes --output /usr/share/keyrings/dev-natif-demo.gpg
-#Ajouter le dépot "private" à notre liste de dépots (en mentionnant la clef dl précédemment)
+#Ajouter le dépôt "private" à notre liste de dépôts (en mentionnant la clef dl précédemment)
 echo "deb [signed-by=/usr/share/keyrings/dev-natif-demo.gpg] http://127.0.0.1:8080 stable main" | sudo tee /etc/apt/sources.list.d/private.list
 ~~~
 
-**Lister les dépôts** suivis par apt :
+**Lister les dépôts** suivis par `apt` :
 
 ~~~bash
 cat /etc/apt/sources.list
 cat /etc/apt/sources.list.d/*.list
 ~~~
 
-**Vérifier** la présence de votre dépôt servi par aptly.
+**Vérifier** la présence de votre dépôt servi par `aptly`.
 
-**Mettre à jour** les métadonnées sur les paquets et **installer** l'application:
+**Mettre à jour** les métadonnées sur les paquets et **installer** l'application :
 
 ~~~bash
 sudo apt update
@@ -344,13 +342,13 @@ sudo apt install myapp
 
 ### Mettre à jour la distribution
 
-> Quand des nouveaux paquets sont prêts, on créé un nouveau snapshot.
+> Quand de nouveaux paquets sont prêts, on créé un nouveau snapshot.
 
 #### Côté distributeur
 
 1. Développer et **créer nouvelle version de notre paquet** (`make deb`), par exemple une version `2.0.0` ;
 2. **Ajouter** le paquet au dépôt `myrepo` : `aptly repo add myrepo myapp_2.0.0.deb` ;
-3. **Créer un nouveau snapshot** (commit du dépot) `version2` : `aptly snapshot create version2 from repo myrepo`;
+3. **Créer un nouveau snapshot** du dépôt nommé `version2` : `aptly snapshot create version2 from repo myrepo`;
 4. **Créer une nouvelle publication** : remplace l'ancienne publication par le nouveau snapshot (*switch*) :  `aptly publish switch stable version2`;
 5. **Servir la publication** (en local) : `aptly serve`
 
@@ -373,7 +371,7 @@ apt list --upgradable
 apt list --installed myapp
 ~~~
 
-**Installer** les mises à jour des paquets:
+**Installer** les mises à jour des paquets :
 
 ~~~bash
 sudo apt upgrade
