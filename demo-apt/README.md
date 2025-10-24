@@ -11,7 +11,7 @@
   - [Build](#build)
   - [Tester l'application localement](#tester-lapplication-localement)
   - [Faire évoluer la version](#faire-évoluer-la-version)
-  - [Alternative : Faire évoluer depuis un tag git dans une pipeline CI/CD](#alternative--faire-évoluer-depuis-un-tag-git-dans-une-pipeline-cicd)
+  - [Alternative : Faire évoluer la version depuis un tag git dans une pipeline CI/CD](#alternative--faire-évoluer-la-version-depuis-un-tag-git-dans-une-pipeline-cicd)
   - [Scripts de maintenance](#scripts-de-maintenance)
   - [Distribution de releases et mises à jour via un dépôt Debian](#distribution-de-releases-et-mises-à-jour-via-un-dépôt-debian)
     - [Créer le dépôt Debian](#créer-le-dépôt-debian)
@@ -171,21 +171,21 @@ make deb
 sudo dpkg -i myapp_2.0.0.deb
 ~~~
 
-## Alternative : Faire évoluer depuis un tag git dans une pipeline CI/CD
+## Alternative : Faire évoluer la version depuis un tag git dans une pipeline CI/CD
 
-1. Sur l'arbre des commits on tag un commit contenant la version :
+1. Sur l'arbre des commits on *tag* un commit contenant la version :
 
 ~~~bash
 git tag -a 1.0.0 -m "Release version 1.0.0"
 ~~~
 
-2. On pousse le tag :
+2. On pousse le *tag* sur le dépôt remote :
 
 ~~~bash
 git push origin 1.1.0
 ~~~
 
-3. Le tag devient accessible aux autres développeur·euses et à la pipeline CI/CD. Dans une pipeline GitLab/GitHub, la tâche `build` peut être par exemple déclenchée sur le *push* d'un *tag*:
+3. Le tag devient accessible aux autres développeur·euses et à la pipeline CI/CD. Dans une pipeline GitLab/GitHub, la tâche `build` peut être déclenchée sur le *push* d'un *tag*:
 
 ~~~yaml
 #Exemple de .github/workflows/build.yml
@@ -193,7 +193,7 @@ name: Build DEB
 on:
   push:
     tags:
-      - '*'   # déclenche sur **tout tag** poussé
+      - '*'   # déclenche le build sur le push du tag (récupération de la version et injection dans le process de build)
 ~~~
 
 La tâche de `build` prend le relai :
@@ -208,7 +208,7 @@ git describe --tags --abbrev=0 > VERSION
 make deb
 ~~~
 
-6. Publie le `.deb` sur le dépôt ([voir la suite](#publier-sur-un-dépôt-apt)).
+5. Publie le `.deb` sur le dépôt ([voir la suite](#publier-sur-un-dépôt-apt)).
 
 ## Scripts de maintenance
 
@@ -268,15 +268,6 @@ aptly snapshot list
 
 > Un snapshot est comme un *commit* : permet de figer une version donnée du dépôt. On ne peut ni ajouter ni supprimer de paquets à un snapshot :
 
-Il faut également penser à mettre à disposition **la clé publique** pour que les utilisateurs du paquet puissent vérifier son intégrité et l'authenticité de l'auteur·e du paquet.
-
-**Publier** la clef publique (à faire qu'une fois):
-
-~~~bash
-#On publie la clef publique dans le site web servi par aptly en local
-gpg --armor --output ~/.aptly/public/gpg --export <ID clef publique généré précédemment>
-~~~
-
 **Crée une publication** du *snapshot* (*publishes snapshot as Debian repository ready to be consumed by apt tools*). Une publication contient plusieurs métadonnées :
 
 - **Prefix** : Chemin de publication dans le répertoire `public/`, l’endroit où sera stocké le dépôt publié (valeur par défaut `.`, sera placé dans `~/.aptly/public/`);
@@ -289,6 +280,17 @@ gpg --armor --output ~/.aptly/public/gpg --export <ID clef publique généré pr
 aptly publish snapshot -distribution="stable" -component="main" version1
 ~~~
 
+> `publish` crée le repertoire `~/.aptly/public` (racine du dépôt) et toute son arborescence standardisée, ainsi que les paquets à distribuer.
+
+Il faut également penser à mettre à disposition **la clé publique** pour que les utilisateurs du paquet puissent vérifier l'intégrité du paquet (via une procédure de signature numérique).
+
+**Publier** la clef publique (à faire qu'une fois):
+
+~~~bash
+#On publie la clef publique (fichier 'gpp') dans le dépôt
+gpg --armor --output ~/.aptly/public/gpg --export <ID clef publique généré précédemment>
+~~~
+
 ### Exposer le dépôt publié
 
 Nous avons un dépôt, il suffit à présent de l’héberger sur un serveur. Ici, on le sert en local avec `aptly` directement :
@@ -297,6 +299,8 @@ Nous avons un dépôt, il suffit à présent de l’héberger sur un serveur. Ic
 #Par défaut, exposé sur http://localhost:8080
 aptly serve
 ~~~
+
+> `aptly` utilise la cle publique pour générer les fichiers `Release` (manifeste contenant le hash des livrables) et `Release.gpp` (signature)
 
 > En prod, on doit servir statiquement ce site (`~/.aptly/public`) avec n'importe quel serveur web comme Nginx ou Apache.
 
